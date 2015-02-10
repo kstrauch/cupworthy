@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <PreferenceCategory
+        android:title="@string/user_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditTextPreference
+            android:key="edit_age_preference"
+            android:title="@string/title_age_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditTextPreference
+            android:key="edit_weight_preference"
+            android:title="@string/title_weight_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditTextPreference
+            android:key="edit_height_preference"
+            android:title="@string/title_height_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditTextPreference
+            android:key="edit_gender_preference"
+            android:title="@string/title_gender_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
