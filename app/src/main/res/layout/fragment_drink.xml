@@ -6,9 +6,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="How many drinks?"
-        android:textSize="200px"
+        android:text="What kind of alcohol?"
+        android:textSize="40px"
         android:gravity="center"
         android:id="@+id/textView"
+        android:layout_gravity="center_horizontal|top" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerInputAlcohol"
+        android:gravity="center"
+        android:entries="@array/ui_alcohol_spinner_entries"
+        android:layout_gravity="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter"
+        android:id="@+id/enter"
+        android:layout_gravity="center_horizontal|bottom" />
+
+    <ImageView
+        android:layout_width="145dp"
+        android:layout_height="140dp"
+        android:id="@+id/imageView"
         android:layout_gravity="center" />
 </FrameLayout>

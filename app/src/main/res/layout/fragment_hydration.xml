@@ -4,11 +4,37 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HYDR8"
-        android:textSize="200px"
+        android:layout_height="153dp"
+        android:text="You are "
+        android:textSize="60px"
         android:gravity="center"
-        android:id="@+id/textView"
+        android:id="@+id/hydrationText"
+        android:layout_gravity="center_horizontal|top" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You need to drink 3 glasses of water to rehydrate"
+        android:id="@+id/textView2"
         android:layout_gravity="center" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/glass_water" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:layout_gravity="left|bottom"
+        android:src="@drawable/glass_water" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/glass_water" />
 
 </FrameLayout>

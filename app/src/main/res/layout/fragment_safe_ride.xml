@@ -6,10 +6,31 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SAFE RIDE"
-        android:textSize="200px"
+        android:text="Safe Ride"
+        android:textSize="50px"
         android:gravity="center"
         android:id="@+id/textView"
-        android:layout_gravity="center" />
+        android:layout_gravity="top|center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You're BAC is 0.10. It's not safe to drive."
+        android:id="@+id/safeRideText"
+        android:layout_gravity="center_horizontal|center" />
+
+    <ImageView
+        android:layout_width="300px"
+        android:layout_height="300px"
+        android:id="@+id/uberView"
+        android:src="@drawable/uber"
+        android:layout_gravity="left|bottom" />
+
+    <ImageView
+        android:layout_width="300px"
+        android:layout_height="300px"
+        android:id="@+id/taxiView"
+        android:src="@drawable/taxi"
+        android:layout_gravity="right|bottom" />
 
 </FrameLayout>
