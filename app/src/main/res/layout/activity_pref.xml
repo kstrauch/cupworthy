@@ -1,0 +1,136 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/prefText"
+            android:layout_width="wrap_content"
+            android:layout_height="67dp"
+            android:text="@string/user_info"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="50px" />
+
+        <TextView
+            android:id="@+id/ageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_age_preference"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/editAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/hint_age"
+            android:inputType="number"
+            android:singleLine="true" >
+        </EditText>
+
+
+
+        <TextView
+            android:id="@+id/weightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_weight_preference"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/editWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/hint_weight"
+            android:inputType="number"
+            android:singleLine="true" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/heightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_height_preference"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/editHeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/hint_height"
+            android:inputType="number"
+            android:singleLine="true" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_gender_preference"
+            android:gravity="center_vertical" />
+
+        <RadioGroup
+            android:id="@+id/radioGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/radio_gender_f"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_gender_female"
+                android:gravity="center_vertical" />
+
+            <RadioButton
+                android:id="@+id/radio_gender_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_gender_male" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" >
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="1"
+                style="?android:attr/borderlessButtonStyle"
+                android:onClick="onSaveClicked"
+                android:text="@string/title_save"
+                android:gravity="center_vertical">
+
+            </Button>
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_weight="1"
+                style="?android:attr/borderlessButtonStyle"
+                android:onClick="onCancelClicked"
+                android:text="@string/title_cancel"
+                android:gravity="center_vertical">
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.net.Uri;
+import android.content.Intent;
 
 
 public class MainActivity extends Activity implements ActionBar.TabListener, hydrationFragment.OnFragmentInteractionListener, drinkFragment.OnFragmentInteractionListener, safeRideFragment.OnFragmentInteractionListener, blacklistFragment.OnFragmentInteractionListener {
@@ -95,7 +96,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             Toast.makeText(this, "settings pressed", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, prefActivity.class);
+            startActivity(intent);
             return true;
         }
 

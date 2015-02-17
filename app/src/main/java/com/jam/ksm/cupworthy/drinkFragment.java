@@ -7,7 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.content.Context;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +18,7 @@ import android.view.ViewGroup;
  * Use the {@link drinkFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class drinkFragment extends Fragment {
+public class drinkFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,6 +27,10 @@ public class drinkFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Context context;
+    private Button enterButton;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,8 +68,18 @@ public class drinkFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        context = this.getActivity();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_drink, container, false);
+        View view = inflater.inflate(R.layout.fragment_drink, container, false);
+
+        // get the refresh button reference and set up the click listener
+        enterButton = (Button) view.findViewById(R.id.enter);
+        enterButton.setOnClickListener(this);
+
+        // Inflate the layout for this fragment
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -89,6 +104,21 @@ public class drinkFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // when refresh button is clicked, disable the button and call
+            // manageMyIDinBackground() on the context
+            // this will refresh the swipe/balance information
+            case R.id.enter:
+                enterButton.setEnabled(false);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
