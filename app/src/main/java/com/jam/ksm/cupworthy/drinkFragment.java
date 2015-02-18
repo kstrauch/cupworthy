@@ -1,6 +1,7 @@
 package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
+import android.content.Context;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +34,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
     private Context context;
     private Button enterButton;
-
+    private ImageButton beerButton, shotButton, iceButton, wineButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,9 +78,49 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_drink, container, false);
 
-        // get the refresh button reference and set up the click listener
+        // set up all the buttons and listeners
         enterButton = (Button) view.findViewById(R.id.enter);
         enterButton.setOnClickListener(this);
+        beerButton = (ImageButton) view.findViewById(R.id.imageButtonBeer);
+        beerButton.setOnClickListener(this);
+        shotButton = (ImageButton) view.findViewById(R.id.imageButtonShot);
+        shotButton.setOnClickListener(this);
+        iceButton = (ImageButton) view.findViewById(R.id.imageButtonIce);
+        iceButton.setOnClickListener(this);
+        wineButton = (ImageButton) view.findViewById(R.id.imageButtonWine);
+        wineButton.setOnClickListener(this);
+
+
+        // get all the user info from shared preferences
+
+        // get the shared prefs
+        String mKey = getString(R.string.preference_name);
+        SharedPreferences mPrefs = getActivity().getSharedPreferences(mKey, Context.MODE_PRIVATE);
+
+        // weight
+        mKey = getString(R.string.preference_key_weight);
+        String weight = mPrefs.getString(mKey, "");
+        //Toast.makeText(getActivity(), "weight = " + weight, Toast.LENGTH_SHORT).show();
+
+        // height
+        mKey = getString(R.string.preference_key_height);
+        String height = mPrefs.getString(mKey, "");
+       // Toast.makeText(getActivity(), "height = " + height, Toast.LENGTH_SHORT).show();
+
+        // age
+        mKey = getString(R.string.preference_key_age);
+        String age = mPrefs.getString(mKey, "");
+        //Toast.makeText(getActivity(), "age = " + age, Toast.LENGTH_SHORT).show();
+
+        // gender -- remember 0 is female, 1 is male
+        mKey = getString(R.string.preference_key_gender);
+        int gender = mPrefs.getInt(mKey, -1);
+        String strGender = "male";
+        if (gender == 0){
+            strGender = "female";
+        }
+        //Toast.makeText(getActivity(), "gender = " + strGender, Toast.LENGTH_SHORT).show();
+
 
         // Inflate the layout for this fragment
         return view;
@@ -115,6 +159,20 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
             // this will refresh the swipe/balance information
             case R.id.enter:
                 enterButton.setEnabled(false);
+                break;
+            case R.id.imageButtonBeer:
+                Toast.makeText(getActivity(), "beer pressed", Toast.LENGTH_SHORT).show();
+
+
+                break;
+            case R.id.imageButtonIce:
+                Toast.makeText(getActivity(), "ice pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.imageButtonShot:
+                Toast.makeText(getActivity(), "shot pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.imageButtonWine:
+                Toast.makeText(getActivity(), "wine pressed", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="What kind of alcohol?"
+        android:text="alcohol type?"
         android:textSize="40px"
         android:gravity="center"
         android:id="@+id/textView"
@@ -27,9 +27,32 @@
         android:id="@+id/enter"
         android:layout_gravity="center_horizontal|bottom" />
 
-    <ImageView
-        android:layout_width="145dp"
-        android:layout_height="140dp"
-        android:id="@+id/imageView"
-        android:layout_gravity="center" />
+    <ImageButton
+        android:layout_width="138dp"
+        android:layout_height="126dp"
+        android:id="@+id/imageButtonBeer"
+        android:src="@drawable/beer"
+        android:layout_gravity="left|bottom" />
+
+    <ImageButton
+        android:layout_width="83dp"
+        android:layout_height="114dp"
+        android:id="@+id/imageButtonShot"
+        android:src="@drawable/shot"
+        android:layout_gravity="right|bottom" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonWine"
+        android:src="@drawable/red_wine"
+        android:layout_gravity="left|top" />
+
+    <ImageButton
+        android:layout_width="141dp"
+        android:layout_height="137dp"
+        android:id="@+id/imageButtonIce"
+        android:src="@drawable/smirnoff_ice"
+        android:layout_gravity="right|top" />
+
 </FrameLayout>

@@ -11,9 +11,9 @@
 
     <!-- names for fragments -->
     <string name="fragment_1">Drinks</string>
-    <string name="fragment_2">HydrationStation</string>
+    <string name="fragment_2">Hydration</string>
     <string name="fragment_3">SafeRide</string>
-    <string name="fragment_4">BlackoutBlacklist</string>
+    <string name="fragment_4">Blacklist</string>
     <string name="fragment_5">Settings</string>
 
     <!-- alcohol types for spinner -->
