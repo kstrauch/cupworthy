@@ -82,7 +82,7 @@ public class hydrationFragment extends Fragment /*implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "button pressed", Toast.LENGTH_SHORT).show();
-                view.findViewById(R.id.imageView4).setVisibility(View.VISIBLE);
+                //view.findViewById(R.id.imageView4).setVisibility(View.VISIBLE);
                 //Need to reinflate the view here somehow
                 /*LayoutInflater inflater = LayoutInflater
                         .from(getActivity().getApplicationContext());

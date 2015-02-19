@@ -57,11 +57,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8333334" vertical-offset="2315" max-vertical-offset="3587">
-              <caret line="101" column="2" selection-start-line="101" selection-start-column="2" selection-end-line="101" selection-end-column="2" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2570" max-vertical-offset="3587">
+              <caret line="152" column="0" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -69,14 +69,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hydrationFragment.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="hydrationFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="2465">
-              <caret line="89" column="56" selection-start-line="89" selection-start-column="56" selection-end-line="89" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.4441417" vertical-offset="1078" max-vertical-offset="2465">
+              <caret line="84" column="18" selection-start-line="84" selection-start-column="18" selection-end-line="84" selection-end-column="18" />
               <folding>
-                <element signature="e#2745#3364#0" expanded="true" />
-                <element signature="e#3353#3354#0" expanded="true" />
+                <element signature="e#2745#3366#0" expanded="true" />
+                <element signature="e#3355#3356#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1566,8 +1566,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1725">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
-            <element signature="e#2745#3364#0" expanded="true" />
-            <element signature="e#3353#3354#0" expanded="true" />
+            <element signature="e#2745#3366#0" expanded="true" />
+            <element signature="e#3355#3356#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1641,8 +1641,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1725">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
-            <element signature="e#2745#3364#0" expanded="true" />
-            <element signature="e#3353#3354#0" expanded="true" />
+            <element signature="e#2745#3366#0" expanded="true" />
+            <element signature="e#3355#3356#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1883,23 +1883,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="2465">
-          <caret line="89" column="56" selection-start-line="89" selection-start-column="56" selection-end-line="89" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2570" max-vertical-offset="3587">
+          <caret line="152" column="0" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
           <folding>
-            <element signature="e#2745#3364#0" expanded="true" />
-            <element signature="e#3353#3354#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8333334" vertical-offset="2315" max-vertical-offset="3587">
-          <caret line="101" column="2" selection-start-line="101" selection-start-column="2" selection-end-line="101" selection-end-column="2" />
+        <state vertical-scroll-proportion="0.4441417" vertical-offset="1078" max-vertical-offset="2465">
+          <caret line="84" column="18" selection-start-line="84" selection-start-column="18" selection-end-line="84" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2745#3366#0" expanded="true" />
+            <element signature="e#3355#3356#0" expanded="true" />
           </folding>
         </state>
       </provider>
