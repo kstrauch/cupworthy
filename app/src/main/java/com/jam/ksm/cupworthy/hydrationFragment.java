@@ -1,12 +1,17 @@
 package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -17,15 +22,18 @@ import android.view.ViewGroup;
  * Use the {@link hydrationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class hydrationFragment extends Fragment {
+public class hydrationFragment extends Fragment /*implements View.OnClickListener*/ {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "debugging";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Context context;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,8 +71,31 @@ public class hydrationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hydration, container, false);
+
+        context = this.getActivity();
+
+        View view = inflater.inflate(R.layout.fragment_hydration, container, false);
+
+        Button drinkButton = (Button) view.findViewById(R.id.drinkAGlass);
+        Log.d(TAG, drinkButton.getText().toString());
+        drinkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "button pressed", Toast.LENGTH_SHORT).show();
+                view.findViewById(R.id.imageView4).setVisibility(View.VISIBLE);
+                //Need to reinflate the view here somehow
+                /*LayoutInflater inflater = LayoutInflater
+                        .from(getActivity().getApplicationContext());
+                View newView = inflater.inflate(R.layout.fragment_hydration, null);
+                getActivity().setContentView(newView);*/
+            }
+        });
+         /*  String x = "4";
+        TextView howManyDrinks = (TextView)getActivity().findViewById(R.id.howManyGlassesNeeded);
+        String text = "You need to drink " + x + " glasses of water.";
+        howManyDrinks.setText(text);*/// Inflate the layout for this fragment
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -73,6 +104,16 @@ public class hydrationFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+/*    public void onClick (View v){
+        switch (v.getId()){
+            case R.id.drinkAGlass:
+                //TextView howManyDrinks = (TextView) v.findViewById(R.id.howManyGlassesNeeded);
+                //howManyDrinks.setText("blah");
+                Toast.makeText(getActivity(), "button pressed", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }*/
 
     @Override
     public void onAttach(Activity activity) {
