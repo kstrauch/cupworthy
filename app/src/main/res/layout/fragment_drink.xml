@@ -12,14 +12,6 @@
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal|top" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerInputAlcohol"
-        android:gravity="center"
-        android:entries="@array/ui_alcohol_spinner_entries"
-        android:layout_gravity="center" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,10 +20,11 @@
         android:layout_gravity="center_horizontal|bottom" />
 
     <ImageButton
-        android:layout_width="138dp"
-        android:layout_height="126dp"
+        android:layout_width="188dp"
+        android:layout_height="171dp"
         android:id="@+id/imageButtonBeer"
-        android:src="@drawable/beer"
+        android:src="@drawable/keystone"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="left|bottom" />
 
     <ImageButton
@@ -39,6 +32,7 @@
         android:layout_height="114dp"
         android:id="@+id/imageButtonShot"
         android:src="@drawable/shot"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="right|bottom" />
 
     <ImageButton
@@ -46,13 +40,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageButtonWine"
         android:src="@drawable/red_wine"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="left|top" />
 
     <ImageButton
         android:layout_width="141dp"
         android:layout_height="137dp"
         android:id="@+id/imageButtonIce"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/smirnoff_ice"
         android:layout_gravity="right|top" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonRedCup"
+        android:src="@drawable/redcup"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_gravity="center" />
+
+    <Spinner
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerInputAlcohol"
+        android:gravity="center"
+        android:entries="@array/ui_alcohol_spinner_entries"
+        android:layout_gravity="left|center_vertical" />
 
 </FrameLayout>

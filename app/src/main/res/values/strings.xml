@@ -51,5 +51,7 @@
     <string name="preference_key_height">profile_height</string>
     <string name="preference_key_age">profile_age</string>
     <string name="preference_key_gender">profile_gender</string>
+    <string name="preference_key_start_time">start_time</string>
+    <string name="preference_key_consumption">consumption</string>
 
 </resources>
