@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You need to drink 3 glasses of water to rehydrate"
-        android:id="@+id/textView2"
+        android:id="@+id/howManyGlassesNeeded"
         android:layout_gravity="center" />
 
     <ImageView
@@ -35,6 +35,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView4"
         android:layout_gravity="right|bottom"
+        android:visibility="invisible"
         android:src="@drawable/glass_water" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drinkAGlass"
+        android:text="+1 Glass"/>
+
+
 
 </FrameLayout>
