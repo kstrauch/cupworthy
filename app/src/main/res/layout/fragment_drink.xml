@@ -3,24 +3,8 @@
     android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.drinkFragment">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="alcohol type?"
-        android:textSize="40px"
-        android:gravity="center"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal|top" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter"
-        android:id="@+id/enter"
-        android:layout_gravity="center_horizontal|bottom" />
-
     <ImageButton
-        android:layout_width="188dp"
+        android:layout_width="130dp"
         android:layout_height="171dp"
         android:id="@+id/imageButtonBeer"
         android:src="@drawable/keystone"
@@ -41,7 +25,8 @@
         android:id="@+id/imageButtonWine"
         android:src="@drawable/red_wine"
         android:background="?android:attr/selectableItemBackground"
-        android:layout_gravity="left|top" />
+        android:layout_gravity="left|top"
+        android:layout_marginLeft="20dp" />
 
     <ImageButton
         android:layout_width="141dp"
@@ -56,15 +41,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageButtonRedCup"
         android:src="@drawable/redcup"
+        android:gravity="center"
         android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="center" />
-
-    <Spinner
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerInputAlcohol"
-        android:gravity="center"
-        android:entries="@array/ui_alcohol_spinner_entries"
-        android:layout_gravity="left|center_vertical" />
 
 </FrameLayout>
