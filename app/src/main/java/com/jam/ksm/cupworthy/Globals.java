@@ -40,4 +40,12 @@ public class Globals {
 
     public final static double[] ALC_ARRAY = {BEER_CONTENT, LIGHT_BEER_CONTENT, WINE_CONTENT, WINE_COOLER_CONTENT, VODKA_CONTENT, GIN_CONTENT, RUM_CONTENT, TEQUILA_CONTENT, BOURBON_CONTENT, SCOTCH_CONTENT};
 
+
+    public static final String effect_1 = "You should feel relaxed, slightly warm, and may experience some loss of judgment";
+    public static final String effect_2 = "Judgment is impaired, alertness is lowered, and inhibitions are fleeting";
+    public static final String effect_3 = "Loss of muscle coordination, judgment and reasoning are impaired";
+    public static final String effect_4 = "Slurred speech and poor coordination. NOT SAFE to drive.";
+    public static final String effect_5 = "Major loss of balance/muscle control. Vomiting may occur. U R CUT OFF";
+
+    public final static String[] EFFECTS_ARR = {effect_1,effect_2, effect_3, effect_4, effect_5 };
 }

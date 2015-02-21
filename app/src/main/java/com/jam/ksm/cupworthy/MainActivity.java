@@ -67,8 +67,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         // database stuff
         //Context context = getApplicationContext();
-        bacDBHelper = new MySQLiteHelper(this);
-        database = bacDBHelper.getWritableDatabase();
+        //bacDBHelper = new MySQLiteHelper(this);
+        //database = bacDBHelper.getWritableDatabase();
         //createDatabase();
 
         //BACEntry bacEntry = bacDBHelper.fetchEntry("f",90,3);
