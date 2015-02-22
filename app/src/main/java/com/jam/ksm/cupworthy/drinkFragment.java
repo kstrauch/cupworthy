@@ -2,17 +2,24 @@ package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import android.content.Context;
+
+import java.text.DecimalFormat;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +41,18 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
     private Context context;
     private Button enterButton;
-    private ImageButton beerButton, shotButton, iceButton, wineButton;
+    private ImageButton beerButton, shotButton, iceButton, wineButton, mikesButton, champButton, soloButton;
+
+    private SharedPreferences mPrefs;
+    private String mKey;
+
+    // used for BAC formula
+    private double ALC_CONST = 5.14;
+    private double TIME_CONST = 0.15;
+    private double F_CONST = 0.66;
+    private double M_CONST = 0.73;
+
+    public int MILLIS_PER_DAY = 1000*3600*24;
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,15 +90,14 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         context = this.getActivity();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_drink, container, false);
 
         // set up all the buttons and listeners
-        enterButton = (Button) view.findViewById(R.id.enter);
-        enterButton.setOnClickListener(this);
+        //enterButton = (Button) view.findViewById(R.id.enter);
+        //enterButton.setOnClickListener(this);
         beerButton = (ImageButton) view.findViewById(R.id.imageButtonBeer);
         beerButton.setOnClickListener(this);
         shotButton = (ImageButton) view.findViewById(R.id.imageButtonShot);
@@ -89,13 +106,18 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         iceButton.setOnClickListener(this);
         wineButton = (ImageButton) view.findViewById(R.id.imageButtonWine);
         wineButton.setOnClickListener(this);
-
+        mikesButton = (ImageButton) view.findViewById(R.id.imageButtonMikes);
+        mikesButton.setOnClickListener(this);
+        champButton = (ImageButton) view.findViewById(R.id.imageButtonChampagne);
+        champButton.setOnClickListener(this);
+        soloButton = (ImageButton) view.findViewById(R.id.imageButtonSolo);
+        soloButton.setOnClickListener(this);
 
         // get all the user info from shared preferences
 
         // get the shared prefs
-        String mKey = getString(R.string.preference_name);
-        SharedPreferences mPrefs = getActivity().getSharedPreferences(mKey, Context.MODE_PRIVATE);
+        mKey = getString(R.string.preference_name);
+        mPrefs = getActivity().getSharedPreferences(mKey, Context.MODE_PRIVATE);
 
         // weight
         mKey = getString(R.string.preference_key_weight);
@@ -153,45 +175,183 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        double bac = 0.0;
         switch (v.getId()) {
             // when refresh button is clicked, disable the button and call
             // manageMyIDinBackground() on the context
             // this will refresh the swipe/balance information
-            case R.id.enter:
-                enterButton.setEnabled(false);
-                break;
+           // case R.id.enter:
+                //enterButton.setEnabled(false);
+            //    Toast.makeText(getActivity(), "enter pressed", Toast.LENGTH_SHORT).show();
+            //    break;
             case R.id.imageButtonBeer:
                 Toast.makeText(getActivity(), "beer pressed", Toast.LENGTH_SHORT).show();
-
-
+                addDrink(Globals.TYPE_BEER, Globals.BEER_AMT);
+                bac =calculateBAC();
+                Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButtonIce:
                 Toast.makeText(getActivity(), "ice pressed", Toast.LENGTH_SHORT).show();
+                addDrink(Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
+                bac = calculateBAC();
+                Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.imageButtonShot:
                 Toast.makeText(getActivity(), "shot pressed", Toast.LENGTH_SHORT).show();
+                addDrink(Globals.TYPE_VODKA, Globals.HARD_AMT);
+                bac = calculateBAC();
+                Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.imageButtonWine:
                 Toast.makeText(getActivity(), "wine pressed", Toast.LENGTH_SHORT).show();
+                addDrink(Globals.TYPE_WINE, Globals.WINE_AMT);
+                bac = calculateBAC();
+                Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.imageButtonChampagne:
+                Toast.makeText(getActivity(), "champagne pressed", Toast.LENGTH_SHORT).show();
+                addDrink(Globals.TYPE_WINE, Globals.WINE_AMT);
+                bac = calculateBAC();
+                Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.imageButtonMikes:
+                Toast.makeText(getActivity(), "mikes pressed", Toast.LENGTH_SHORT).show();
+                addDrink(Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
+                bac = calculateBAC();
+                Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.imageButtonSolo:
+                Toast.makeText(getActivity(), "red cup pressed", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
         }
+
+        DecimalFormat df = new DecimalFormat("0.00");
+       // df.format(0.912385);
+
+        setText("Your BAC is: "+ df.format(bac), R.id.bacText);
+        setText(getBACInfo(bac), R.id.bacDetails);
+
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
+    public void addDrink(int type, double amount){
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+
+        // update start time for first app usage or if more than a day has passed.
+        mKey = getString(R.string.preference_key_start_time);
+        String start_time = mPrefs.getString(mKey,"");
+        if (start_time == "" || (System.currentTimeMillis() - Long.parseLong(start_time) > MILLIS_PER_DAY)){
+            mEditor.putString(mKey, "" + System.currentTimeMillis());
+            mKey = getString(R.string.preference_key_consumption);
+            mEditor.putString(mKey,"0.0");
+        }
+
+        // calculate oz of alc based on the kind of alc/the oz that were drunk
+        double oz_alc = Globals.ALC_ARRAY[type] * amount;
+
+        // deal with consumption. update daily consumption amount
+        mKey = getString(R.string.preference_key_consumption);
+
+        double consumption;
+        if(mPrefs.getString(mKey, "") != ""){
+            consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
+        }
+        else{
+            consumption = 0.0;
+        }
+        consumption += oz_alc;
+        mEditor.putString(mKey,"" + consumption);
+        mEditor.commit();
+
+        Toast.makeText(getActivity().getApplicationContext(), "Saving drink! type = " + type + "amount = " + amount + " total oz alc = " + oz_alc,
+                Toast.LENGTH_SHORT).show();
+        // should also make note in database of what was consumed, oz. alcohol, and the timestamp so that we can keep track of days
+    }
+
+    public double calculateBAC(){
+        mKey = getString(R.string.preference_key_start_time);
+        String start_time = mPrefs.getString(mKey,"");
+
+        double time_elapsed = (double) (System.currentTimeMillis() - Long.parseLong(start_time)) / 3600000 ;
+
+        mKey = getString(R.string.preference_key_consumption);
+        double consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
+
+        mKey = getString(R.string.preference_key_weight);
+        int weight;
+        if(mPrefs.getString(mKey, "") != ""){
+            weight = Integer.parseInt(mPrefs.getString(mKey, ""));
+        }
+        else{
+            Toast.makeText(getActivity(), "update weight in settings", Toast.LENGTH_SHORT).show();
+            return 0.0;
+        }
+
+        // figure out which R constant to use based on gender
+        mKey = getString(R.string.preference_key_gender);
+        int gender = mPrefs.getInt(mKey, -1);
+        double gender_prop = M_CONST;
+        if(gender == 0){
+            gender_prop = F_CONST;
+        }
+        else if (gender == -1){
+            Toast.makeText(getActivity(), "update gender in settings!", Toast.LENGTH_SHORT).show();
+            return 0.0;
+        }
+
+
+        // based on Widmark's BAC Formula
+        double bac = (consumption * ALC_CONST) / (weight * gender_prop) - TIME_CONST * time_elapsed;
+        Log.d("CS69", "Consumption is " + consumption);
+        Log.d("CS69", "weight is " + weight);
+        Log.d("CS69", " Time elapsed is " + time_elapsed);
+        Log.d("CS69", "bac is " + bac);
+
+        return bac;
+    }
+
+        /**
+         * This interface must be implemented by activities that contain this
+         * fragment to allow an interaction in this fragment to be communicated
+         * to the activity and potentially other fragments contained in that
+         * activity.
+         * <p/>
+         * See the Android Training lesson <a href=
+         * "http://developer.android.com/training/basics/fragments/communicating.html"
+         * >Communicating with Other Fragments</a> for more information.
+         */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
 
+    public void setText(String text, int name){
+        TextView textView = (TextView) getView().findViewById(name);
+        textView.setText(text);
+    }
+
+    public String getBACInfo(double bac){
+        String text = "";
+        if(bac <= 0.02 ){
+            text = Globals.EFFECTS_ARR[0];
+        }
+        else if(bac <=0.05){
+            text =  Globals.EFFECTS_ARR[1];
+        }
+        else if(bac <=0.08){
+            text = Globals.EFFECTS_ARR[2];
+        }
+        else if(bac <=0.10){
+            text = Globals.EFFECTS_ARR[3];
+        }
+        else{
+            text = Globals.EFFECTS_ARR[4];
+        }
+        return text;
+    }
 }

@@ -1,5 +1,10 @@
 package com.jam.ksm.cupworthy;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -7,9 +12,15 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +33,7 @@ import android.net.Uri;
 import android.content.Intent;
 import java.util.Map;
 import java.util.HashMap;
+
 
 public class MainActivity extends Activity implements ActionBar.TabListener, hydrationFragment.OnFragmentInteractionListener, drinkFragment.OnFragmentInteractionListener, safeRideFragment.OnFragmentInteractionListener, blacklistFragment.OnFragmentInteractionListener {
 
@@ -40,10 +52,27 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
      */
     ViewPager mViewPager;
 
+    public SQLiteDatabase database;
+    public MySQLiteHelper bacDBHelper;
+
+    //public static final String COLUMN_COMMENT = "comment";
+
+    private static final String DATABASE_NAME = "bac.db";
+    private static final int DATABASE_VERSION = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // database stuff
+        //Context context = getApplicationContext();
+        //bacDBHelper = new MySQLiteHelper(this);
+        //database = bacDBHelper.getWritableDatabase();
+        //createDatabase();
+
+        //BACEntry bacEntry = bacDBHelper.fetchEntry("f",90,3);
+        //Toast.makeText(this, "weight is " + bacEntry.getWeight() +  " bac is" + bacEntry.getBAC(),Toast.LENGTH_SHORT).show();
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -79,27 +108,30 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                             .setTabListener(this));
         }
     }
-/*
-    private HashMap<Integer, HashMap<Integer, Double>> makeBACDictionary(){
-        HashMap<Integer, Double> inner_map = new HashMap<Integer, Double>();
-        HashMap<Integer, HashMap<Integer, Double>> dictionary = new HashMap<Integer, HashMap<Integer, Double>>();
 
-        for(int i = 100; i <= 240; i+=20){
-            inner_map.put(i,0.00);
+
+    public void createDatabase(){
+
+        String line = "";
+        BufferedReader br = null;
+        InputStream is = null;
+        try {
+            is = getAssets().open("bac.csv");
+            br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            while ((line = br.readLine()) != null) {
+
+                bacDBHelper.insertEntry(line);
+            }
+            Toast.makeText(this, "database made", Toast.LENGTH_SHORT).show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        dictionary.put(0, inner_map);
-        inner_map = new HashMap<Integer, Double>();
-
-        inner_map.put(100, 0.04);
-        inner_map.put(120, 0.03);
-        inner_map.put(140,0.03);
-
-
-        return dictionary;
 
 
     }
-*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -202,7 +234,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
                 case 3:
                     return getString(R.string.fragment_4).toUpperCase(l);
-
             }
             return null;
 

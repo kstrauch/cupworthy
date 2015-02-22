@@ -3,56 +3,84 @@
     android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.drinkFragment">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="alcohol type?"
-        android:textSize="40px"
-        android:gravity="center"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal|top" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerInputAlcohol"
-        android:gravity="center"
-        android:entries="@array/ui_alcohol_spinner_entries"
-        android:layout_gravity="center" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter"
-        android:id="@+id/enter"
-        android:layout_gravity="center_horizontal|bottom" />
-
     <ImageButton
-        android:layout_width="138dp"
-        android:layout_height="126dp"
+        android:layout_width="130dp"
+        android:layout_height="171dp"
         android:id="@+id/imageButtonBeer"
-        android:src="@drawable/beer"
+        android:src="@drawable/keystone"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="left|bottom" />
 
     <ImageButton
-        android:layout_width="83dp"
+        android:layout_width="100dp"
         android:layout_height="114dp"
         android:id="@+id/imageButtonShot"
         android:src="@drawable/shot"
-        android:layout_gravity="right|bottom" />
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="10dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButtonWine"
         android:src="@drawable/red_wine"
-        android:layout_gravity="left|top" />
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_gravity="left|top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" />
 
     <ImageButton
-        android:layout_width="141dp"
+        android:layout_width="100dp"
         android:layout_height="137dp"
         android:id="@+id/imageButtonIce"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/smirnoff_ice"
-        android:layout_gravity="right|top" />
+        android:layout_gravity="right|top"
+        android:layout_marginTop="20dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonSolo"
+        android:src="@drawable/redcup"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_gravity="center" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonChampagne"
+        android:src="@drawable/champagne"
+        android:layout_gravity="left|center_vertical"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_marginLeft="20dp" />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="183dp"
+        android:id="@+id/imageButtonMikes"
+        android:src="@drawable/mikes"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_gravity="right|center_vertical" />
+
+    <TextView
+        android:layout_width="136dp"
+        android:layout_height="103dp"
+        android:text=""
+        android:textSize="40px"
+        android:id="@+id/bacText"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal|top"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <TextView
+        android:layout_width="136dp"
+        android:layout_height="171dp"
+        android:text=""
+        android:textSize="40px"
+        android:id="@+id/bacDetails"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center_vertical|center_horizontal" />
 
 </FrameLayout>
