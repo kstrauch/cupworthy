@@ -2,6 +2,7 @@ package com.jam.ksm.cupworthy;
 
 /**
  * Created by Sam on 2/17/2015.
+ * source: http://stackoverflow.com/questions/4892179/how-can-i-get-a-working-vertical-seekbar-in-android/7341546#7341546
  */
 
         import android.content.Context;

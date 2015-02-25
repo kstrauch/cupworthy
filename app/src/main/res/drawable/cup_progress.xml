@@ -1,0 +1,11 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <bitmap android:src="@drawable/redcup"/>
+    </item>
+    <item>
+        <clip
+            android:clipOrientation="vertical"
+            android:gravity="bottom"
+            android:drawable="@drawable/blue_cup"/>
+    </item>
+</layer-list>
