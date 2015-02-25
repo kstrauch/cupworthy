@@ -26,8 +26,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.File;
+import java.util.Collections;
 
 
 /**
@@ -56,7 +67,8 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
     private Context context2;
     private Intent contactPickerIntent;
     private Activity activity;
-    private List<String> blacklist = new ArrayList<String>();
+    private Hashtable<String, String> blacklist = new Hashtable<String, String>();
+    private List<String> displayBlacklist = new ArrayList<String>();
     private ArrayAdapter<String> mForecastAdapter;
     private View view;
 
@@ -105,13 +117,25 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
         contactButton = (Button) view.findViewById(R.id.addContact);
         contactButton.setOnClickListener(this);
 
-        blacklist.add("test");
 
+
+        blacklist = (Hashtable<String, String>) loadHash(blacklist);
+
+        //if (blacklist.isEmpty()){}
+        Enumeration<String> enumKey = blacklist.keys();
+        while (enumKey.hasMoreElements()) {
+            String name = enumKey.nextElement();
+            //Toast.makeText(context, name, Toast.LENGTH_LONG).show();
+            displayBlacklist.add(name);
+        }
+        ;
+
+        Collections.sort(displayBlacklist);
         mForecastAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.contact_list,
                 R.id.blacklist_textview,
-                blacklist);
+                displayBlacklist);
 
         ListView listView = (ListView) view.findViewById(
                 R.id.listview_blacklist);
@@ -238,8 +262,21 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                         if (cursor != null) {
                             cursor.close();
                         }
-                        Toast.makeText(activity, name + ": " + phone, Toast.LENGTH_LONG).show();
-                        blacklist.add(name);
+                        //Toast.makeText(activity, name + ": " + phone, Toast.LENGTH_LONG).show();
+                        if (! blacklist.containsKey(name)){
+                            blacklist.put(name, phone);}
+
+                        saveHash(blacklist);
+                        //blacklist.clear();
+                        displayBlacklist.clear();
+
+//                        Enumeration<String> new_enumKey = blacklist.keys();
+//                        while (new_enumKey.hasMoreElements()) {
+//                            String key = new_enumKey.nextElement();
+//                            //Toast.makeText(context, name, Toast.LENGTH_LONG).show();
+//                            displayBlacklist.add(key);
+//                        }
+//                        ;
 
 
 
@@ -251,6 +288,77 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
             Log.w(DEBUG_TAG, "Warning: activity result not ok");
         }
 
-    }}
+    }
+
+    public void saveHash(Serializable object){
+        try{
+            File file = new File(context.getFilesDir(), "contacts_hash.txt");
+            file.delete();
+            //File outputFile = new File(context.getFilesDir(), "test.txt");
+            FileOutputStream out = new FileOutputStream(context.getFilesDir().toString() + "/contacts_hash.txt");
+            ObjectOutputStream hash = new ObjectOutputStream(out);
+
+            hash.writeObject(object);
+            hash.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//        try {
+//            FileOutputStream saveFile = new FileOutputStream("current.dat");
+//            ObjectOutputStream out = new ObjectOutputStream(saveFile);
+//            out.writeObject(object);
+//            out.close();
+//            saveFile.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public Object loadHash(Hashtable<String, String> toSave){
+        Object table = null;
+        //Hashtable<String, String> emptyTable;
+        try {
+            File file = new File(context.getFilesDir(), "contacts_hash.txt");
+
+            if( !( (file).exists() ) ){
+
+                //Create new empty file
+                (file).createNewFile();
+
+                //Creates a fresh new hashTable
+                //emptyTable = new Hashtable<String, String>();
+                //emptyTable.put("TestName", "TestNum");
+                saveHash(toSave);
+            }
+
+
+
+            ObjectInputStream hash = new ObjectInputStream(new FileInputStream(context.getFilesDir().toString() + "/contacts_hash.txt"));
+            table = hash.readObject();
+            //table = hash;
+            //file.delete();
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return table;
+//        Object result = null;
+//        try {
+//            FileInputStream saveFile = new FileInputStream("current.dat");
+//            ObjectInputStream in = new ObjectInputStream(saveFile);
+//            try{
+//                result = in.readObject();
+//            }catch (ClassNotFoundException e){
+//                e.printStackTrace();
+//            }
+//            in.close();
+//            saveFile.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+        }
+    }
 
 
