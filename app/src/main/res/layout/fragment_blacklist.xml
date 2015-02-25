@@ -1,13 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.blacklistFragment">
+    android:layout_height="match_parent" android:orientation="vertical" tools:context="com.jam.ksm.cupworthy.blacklistFragment">
 
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/listview_blacklist"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"/>
+
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView5"
-        android:layout_gravity="center"
-        android:src="@drawable/contacts"/>
+        android:id="@+id/addContact"
+        android:text="Add a Contact"/>
 
-</FrameLayout>
+</LinearLayout>

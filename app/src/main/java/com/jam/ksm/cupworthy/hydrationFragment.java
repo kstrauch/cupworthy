@@ -2,6 +2,7 @@ package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,9 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +22,7 @@ import android.widget.Toast;
  * Use the {@link hydrationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class hydrationFragment extends Fragment /*implements View.OnClickListener*/ {
+public class hydrationFragment extends Fragment implements View.OnClickListener /*implements View.OnClickListener*/ {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,6 +36,8 @@ public class hydrationFragment extends Fragment /*implements View.OnClickListene
     private Context context;
 
     private OnFragmentInteractionListener mListener;
+
+    private Button drinkButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -77,24 +79,19 @@ public class hydrationFragment extends Fragment /*implements View.OnClickListene
 
         View view = inflater.inflate(R.layout.fragment_hydration, container, false);
 
-        Button drinkButton = (Button) view.findViewById(R.id.drinkAGlass);
+        drinkButton = (Button) view.findViewById(R.id.drinkAGlass);
         Log.d(TAG, drinkButton.getText().toString());
-        drinkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "button pressed", Toast.LENGTH_SHORT).show();
-                //view.findViewById(R.id.imageView4).setVisibility(View.VISIBLE);
-                //Need to reinflate the view here somehow
-                /*LayoutInflater inflater = LayoutInflater
-                        .from(getActivity().getApplicationContext());
-                View newView = inflater.inflate(R.layout.fragment_hydration, null);
-                getActivity().setContentView(newView);*/
-            }
-        });
-         /*  String x = "4";
-        TextView howManyDrinks = (TextView)getActivity().findViewById(R.id.howManyGlassesNeeded);
-        String text = "You need to drink " + x + " glasses of water.";
-        howManyDrinks.setText(text);*/// Inflate the layout for this fragment
+        drinkButton.setOnClickListener(this);
+
+        //Depending on bac set up the number of glasses shown
+        //As of right now, setting them all as visible
+        /*view.findViewById(R.id.glass1).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.glass2).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.glass3).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.glass4).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.glass5).setVisibility(View.VISIBLE);*/
+
+
 
         return view;
     }
@@ -106,15 +103,57 @@ public class hydrationFragment extends Fragment /*implements View.OnClickListene
         }
     }
 
-/*    public void onClick (View v){
+    public void onClick (View v){
         switch (v.getId()){
             case R.id.drinkAGlass:
                 //TextView howManyDrinks = (TextView) v.findViewById(R.id.howManyGlassesNeeded);
                 //howManyDrinks.setText("blah");
-                Toast.makeText(getActivity(), "button pressed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "button pressed", Toast.LENGTH_SHORT).show();
+                reduceWaterCups();
+
+                break;
+
+            default:
                 break;
         }
-    }*/
+    }
+
+    public void reduceWaterCups(){
+        Log.d(TAG, "in reduce water cups");
+        TextView textView = (TextView) getView().findViewById(R.id.howManyGlassesNeeded);
+        CharSequence message = textView.getText();
+        int numberOfDrinks = Integer.parseInt(Character.toString(message.charAt(18)));
+        if (numberOfDrinks > 0){
+            numberOfDrinks --;
+        }
+        String newNumber = Integer.toString(numberOfDrinks);
+        String text = "You need to drink " + newNumber + " glasses of water to rehydrate.";
+        textView.setText(text);
+
+        ImageView glass;
+
+        switch (numberOfDrinks){
+            case 0:
+                glass = (ImageView) getView().findViewById(R.id.glass1);
+                glass.setVisibility(View.INVISIBLE);
+                break;
+            case 1:
+                glass = (ImageView) getView().findViewById(R.id.glass2);
+                glass.setVisibility(View.INVISIBLE);
+                break;
+            case 2:
+                glass = (ImageView) getView().findViewById(R.id.glass3);
+                glass.setVisibility(View.INVISIBLE);
+                break;
+            case 3:
+                //make the plus sign go away, but fix that first
+                break;
+
+            default:
+                break;
+        }
+
+    }
 
     @Override
     public void onAttach(Activity activity) {
