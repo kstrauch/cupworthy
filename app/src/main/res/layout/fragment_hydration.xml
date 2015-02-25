@@ -1,48 +1,65 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.hydrationFragment">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="153dp"
+            android:text="You are dehydrated"
+            android:textSize="60px"
+            android:gravity="center"
+            android:id="@+id/hydrationText"
+            android:layout_gravity="center_horizontal|top" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="153dp"
-        android:text="You are dehydrated"
-        android:textSize="60px"
-        android:gravity="center"
-        android:id="@+id/hydrationText"
-        android:layout_gravity="center_horizontal|top" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You need to drink 3 glasses of water to rehydrate"
+            android:id="@+id/howManyGlassesNeeded"
+            android:layout_gravity="center" />
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="435dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/glass1"
+                android:layout_gravity="bottom"
+                android:src="@drawable/glass_water" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/glass2"
+                android:layout_gravity="bottom"
+                android:src="@drawable/glass_water" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/glass3"
+                android:layout_gravity="bottom"
+                android:src="@drawable/glass_water" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/glass4"
+                android:layout_gravity="bottom"
+                android:src="@drawable/glass_water" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You need to drink 3 glasses of water to rehydrate"
-        android:id="@+id/howManyGlassesNeeded"
-        android:layout_gravity="center" />
+        </LinearLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:layout_gravity="center_horizontal|bottom"
-        android:src="@drawable/glass_water" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView3"
-        android:layout_gravity="left|bottom"
-        android:src="@drawable/glass_water" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
-        android:layout_gravity="right|bottom"
-        android:visibility="invisible"
-        android:src="@drawable/glass_water" />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:id="@+id/drinkAGlass"
+            android:text="+1 Glass"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/drinkAGlass"
-        android:text="+1 Glass"/>
+    </ScrollView>
 
 
 
