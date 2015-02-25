@@ -138,25 +138,17 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
                 glass.setVisibility(View.INVISIBLE);
                 break;
             case 1:
-                glass = (ImageView) getView().findViewById(R.id.glass1);
+                glass = (ImageView) getView().findViewById(R.id.glass2);
                 glass.setVisibility(View.INVISIBLE);
                 break;
             case 2:
-                glass = (ImageView) getView().findViewById(R.id.glass1);
+                glass = (ImageView) getView().findViewById(R.id.glass3);
                 glass.setVisibility(View.INVISIBLE);
                 break;
             case 3:
-                glass = (ImageView) getView().findViewById(R.id.glass1);
-                glass.setVisibility(View.INVISIBLE);
+                //make the plus sign go away, but fix that first
                 break;
-            case 4:
-                glass = (ImageView) getView().findViewById(R.id.glass1);
-                glass.setVisibility(View.INVISIBLE);
-                break;
-            case 5:
-                glass = (ImageView) getView().findViewById(R.id.glass1);
-                glass.setVisibility(View.INVISIBLE);
-                break;
+
             default:
                 break;
         }

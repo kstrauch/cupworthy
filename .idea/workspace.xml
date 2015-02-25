@@ -32,6 +32,9 @@
       </layout>
     </layouts>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.jam.ksm.cupworthy" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="05957ad4-62ee-4050-962f-a4415d7e4325" name="Default" comment="" />
     <ignored path="CupWorthy.iws" />
@@ -55,17 +58,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="hydrationFragment.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="hydrationFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="856" max-vertical-offset="3264">
-              <caret line="87" column="69" selection-start-line="87" selection-start-column="69" selection-end-line="87" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.77011496" vertical-offset="1910" max-vertical-offset="3128">
+              <caret line="148" column="64" selection-start-line="148" selection-start-column="64" selection-end-line="148" selection-end-column="64" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fragment_hydration.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fragment_hydration.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hydration.xml">
           <provider selected="true" editor-type-id="android-designer">
             <state />
@@ -1041,8 +1044,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/drinkFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_drink.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/VerticalSeekBar.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_hydration.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java" />
       </list>
     </option>
   </component>
@@ -1422,7 +1425,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282313" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.06462585" sideWeight="0.80257183" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.06462585" sideWeight="0.80257183" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1641,14 +1644,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1264" max-vertical-offset="3468">
-          <caret line="87" column="69" selection-start-line="87" selection-start-column="69" selection-end-line="87" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hydration.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -1656,6 +1651,14 @@
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="763" max-vertical-offset="1343">
           <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/jam/ksm/cupworthy/hydrationFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.77011496" vertical-offset="1910" max-vertical-offset="3128">
+          <caret line="148" column="64" selection-start-line="148" selection-start-column="64" selection-end-line="148" selection-end-column="64" />
           <folding />
         </state>
       </provider>
