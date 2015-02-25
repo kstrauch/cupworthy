@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.drinkFragment">
+
+
+    <ImageView
+        android:layout_width="196dp"
+        android:layout_height="254dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/redcup"
+        android:layout_gravity="center" />
+
+    <com.jam.ksm.cupworthy.VerticalSeekBar
+        android:layout_width="101dp"
+        android:layout_height="200dp"
+        android:id="@+id/verticalSlider"
+        android:visibility="invisible"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_gravity="center" />
+
+
+</FrameLayout>

@@ -24,6 +24,10 @@
             android:name=".prefActivity"
             android:label="@string/title_activity_pref" >
         </activity>
+        <activity
+            android:name=".cupActivity"
+            android:label="@string/title_activity_cup" >
+        </activity>
     </application>
 
 </manifest>

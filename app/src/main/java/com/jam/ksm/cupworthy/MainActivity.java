@@ -154,6 +154,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.action_cup){
+            Toast.makeText(this, "red cup pressed", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, cupActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -7,6 +7,7 @@
     <string name="title_section3">Section 3</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_cup">Red Cup</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- names for fragments -->
@@ -36,14 +37,11 @@
     <string name="title_gender_female">Female</string>
     <string name="title_gender_male">Male</string>
     <string name="title_activity_pref">prefActivity</string>
-
     <string name="hint_weight">150</string>
     <string name="hint_height">65</string>
     <string name="hint_age">22</string>
-
     <string name="title_save">Save</string>
     <string name="title_cancel">Cancel</string>
-
 
     <!-- shared preferences -->
     <string name="preference_name">my_shared_preferences</string>
@@ -53,5 +51,6 @@
     <string name="preference_key_gender">profile_gender</string>
     <string name="preference_key_start_time">start_time</string>
     <string name="preference_key_consumption">consumption</string>
+    <string name="title_activity_cup">cupActivity</string>
 
 </resources>
