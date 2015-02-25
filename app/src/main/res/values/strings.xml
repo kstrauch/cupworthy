@@ -51,6 +51,7 @@
     <string name="preference_key_gender">profile_gender</string>
     <string name="preference_key_start_time">start_time</string>
     <string name="preference_key_consumption">consumption</string>
+    <string name="preference_key_bac">bac</string>
     <string name="title_activity_cup">cupActivity</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.jam.ksm.cupworthy;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.Uri;
@@ -54,7 +55,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
     // used for BAC formula
     private double ALC_CONST = 5.14;
-    private double TIME_CONST = 0.15;
+    private double TIME_CONST = 0.015;
     private double F_CONST = 0.66;
     private double M_CONST = 0.73;
 
@@ -197,45 +198,49 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
                 //    break;
                 case R.id.imageButtonBeer:
                     Toast.makeText(getActivity(), "beer pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(Globals.TYPE_BEER, Globals.BEER_AMT);
+                    addDrink(getActivity(), mPrefs,Globals.TYPE_BEER, Globals.BEER_AMT);
                     bac = calculateBAC();
                     Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.imageButtonIce:
                     Toast.makeText(getActivity(), "ice pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
+                    addDrink(getActivity(), mPrefs,Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
                     bac = calculateBAC();
                     Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.imageButtonShot:
                     Toast.makeText(getActivity(), "shot pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(Globals.TYPE_VODKA, Globals.HARD_AMT);
+                    addDrink(getActivity(), mPrefs,Globals.TYPE_VODKA, Globals.HARD_AMT);
                     bac = calculateBAC();
                     Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.imageButtonWine:
                     Toast.makeText(getActivity(), "wine pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(Globals.TYPE_WINE, Globals.WINE_AMT);
+                    addDrink(getActivity(), mPrefs, Globals.TYPE_WINE, Globals.WINE_AMT);
                     bac = calculateBAC();
                     Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.imageButtonChampagne:
                     Toast.makeText(getActivity(), "champagne pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(Globals.TYPE_WINE, Globals.WINE_AMT);
+                    addDrink(getActivity(), mPrefs,Globals.TYPE_WINE, Globals.WINE_AMT);
                     bac = calculateBAC();
                     Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.imageButtonMikes:
                     Toast.makeText(getActivity(), "mikes pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
+                    addDrink(getActivity(), mPrefs,Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
                     bac = calculateBAC();
                     Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.imageButtonSolo:
                     Toast.makeText(getActivity(), "red cup pressed", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), cupActivity.class);
+                    startActivityForResult(intent, Globals.RED_CUP_INTENT);
+                   // bac = calculateBAC();
+                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -249,15 +254,17 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void addDrink(int type, double amount) {
+    public static void addDrink(Context context, SharedPreferences mPrefs, int type, double amount) {
+
         SharedPreferences.Editor mEditor = mPrefs.edit();
+        String mKey;
 
         // update start time for first app usage or if more than a day has passed.
-        mKey = getString(R.string.preference_key_start_time);
+        mKey = context.getString(R.string.preference_key_start_time);
         String start_time = mPrefs.getString(mKey, "");
-        if (start_time == "" || (System.currentTimeMillis() - Long.parseLong(start_time) > MILLIS_PER_DAY)) {
+        if (start_time == "" || (System.currentTimeMillis() - Long.parseLong(start_time) > Globals.MILLIS_PER_DAY)) {
             mEditor.putString(mKey, "" + System.currentTimeMillis());
-            mKey = getString(R.string.preference_key_consumption);
+            mKey = context.getString(R.string.preference_key_consumption);
             mEditor.putString(mKey, "0.0");
         }
 
@@ -265,7 +272,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         double oz_alc = Globals.ALC_ARRAY[type] * amount;
 
         // deal with consumption. update daily consumption amount
-        mKey = getString(R.string.preference_key_consumption);
+        mKey = context.getString(R.string.preference_key_consumption);
 
         double consumption;
         if (mPrefs.getString(mKey, "") != "") {
@@ -278,19 +285,34 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         mEditor.commit();
 
 
-        Toast.makeText(getActivity().getApplicationContext(), "Saving drink! type = " + type + "amount = " + amount + " total oz alc = " + oz_alc,
+        Toast.makeText(context.getApplicationContext(), "Saving drink! type = " + type + "amount = " + amount + " total oz alc = " + oz_alc,
                 Toast.LENGTH_SHORT).show();
         // should also make note in database of what was consumed, oz. alcohol, and the timestamp so that we can keep track of days
     }
 
     public double calculateBAC() {
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+
+        mKey = getString(R.string.preference_key_consumption);
+        String amount = mPrefs.getString(mKey,"");
         mKey = getString(R.string.preference_key_start_time);
         String start_time = mPrefs.getString(mKey, "");
 
-        double time_elapsed = (double) (System.currentTimeMillis() - Long.parseLong(start_time)) / 3600000;
+        // first time using app, set start_time to current sys time and set consumption to 0
+        if (start_time == "" || amount ==""){
+            start_time = "" + System.currentTimeMillis();
+            mEditor.putString(mKey, start_time);
+            amount = "0.0";
+            mKey = getString(R.string.preference_key_consumption);
+            mEditor.putString(mKey,amount);
+            mEditor.commit();
+        }
 
-        mKey = getString(R.string.preference_key_consumption);
-        double consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
+
+        double time_elapsed = (double) (System.currentTimeMillis() - Long.parseLong(start_time)) / Globals.MILLIS_PER_DAY;
+
+      //  mKey = getString(R.string.preference_key_consumption);
+        double consumption = Double.parseDouble(amount);
 
         mKey = getString(R.string.preference_key_weight);
         int weight;
@@ -322,6 +344,12 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         Log.d("CS69", "weight is " + weight);
         Log.d("CS69", " Time elapsed is " + time_elapsed);
         Log.d("CS69", "bac is " + bac);
+
+        // update shared preferences with the bac
+        mKey = getString(R.string.preference_key_bac);
+        DecimalFormat df = new DecimalFormat("0.00");
+        mEditor.putString(mKey, "" + df.format(bac));
+        mEditor.commit();
 
         return bac;
     }
@@ -400,5 +428,21 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
         return confirmation;
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+            // Make sure the request was successful
+         if (resultCode == Globals.RESULT_OK) {
+             DecimalFormat df = new DecimalFormat("0.00");
+             // df.format(0.912385);
+             double bac = calculateBAC();
+             Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+
+             setText("Your BAC is: " + df.format(bac), R.id.bacText);
+             setText(getBACInfo(bac), R.id.bacDetails);
+
+            }
+        }
+
 
 }

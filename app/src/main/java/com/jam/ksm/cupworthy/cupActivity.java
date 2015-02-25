@@ -2,7 +2,10 @@ package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,14 +14,16 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.jam.ksm.cupworthy.drinkFragment;
 
 public class cupActivity extends Activity implements View.OnClickListener {
 
     // global var to keep track of progress on slider
     int vert_progress=0;
     private final int TOP_PROGRESS_LEVEL = 10000;
-    Context context = this;
+    Context context;
+    private SharedPreferences mPrefs;
+    private String mKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,16 @@ public class cupActivity extends Activity implements View.OnClickListener {
 
         final ImageView blueCup =(ImageView) findViewById(R.id.blueCup);
         final SeekBar verticalSlider=(SeekBar) findViewById(R.id.verticalSlider);
-        final Button submitButton=(Button) findViewById(R.id.submitButton);
+
+        // set up onclicklistener
+        context = this;
+        Button submitButton=(Button) findViewById(R.id.submitButton);
+        //submitButton.setOnClickListener(this);
+        //View.OnClickListener clickListener = this;
+        submitButton.setOnClickListener(this);
+
+        mKey = getString(R.string.preference_name);
+        mPrefs = this.getSharedPreferences(mKey, Context.MODE_PRIVATE);
 
         blueCup.setImageResource(R.drawable.cup_progress);
 
@@ -52,7 +66,7 @@ public class cupActivity extends Activity implements View.OnClickListener {
                 // TODO Auto-generated method stub
                 vert_progress = progress;
                 int level = (int) ( ( (double) vert_progress  / seekBar.getMax()) * TOP_PROGRESS_LEVEL);
-                Toast.makeText(context, "level is..." + level, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "level is..." + level, Toast.LENGTH_SHORT).show();
 
                 //blueCup.setImageLevel(level);
                 //blueCup.setAlpha(127);
@@ -62,7 +76,7 @@ public class cupActivity extends Activity implements View.OnClickListener {
                 blueCup.setImageLevel(level);
                 blueCup.getDrawable().setLevel(level);
 
-                Toast.makeText(context, "progress is..." + vert_progress, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "progress is..." + vert_progress, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -92,14 +106,30 @@ public class cupActivity extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    //@Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.submitButton:
-                Toast.makeText(this, "progress is..." + vert_progress, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "button pressed..." + vert_progress, Toast.LENGTH_SHORT).show();
+                // fix the add drink to calculate volume based on height filled...
+
+                drinkFragment.addDrink(context, mPrefs,Globals.TYPE_VODKA, estimateVolume());
+
+                Intent intent=new Intent();
+                setResult(Globals.RESULT_OK, intent);
+
+                finish();
                 break;
             default:
                 break;
         }
+        finish();
+    }
+
+
+    // come up with a more rigorous way of estimating volume
+    public double estimateVolume(){
+       return 1.0 * vert_progress;
+
     }
 }
