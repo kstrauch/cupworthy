@@ -68,8 +68,8 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
     private Intent contactPickerIntent;
     private Activity activity;
     private Hashtable<String, String> blacklist = new Hashtable<String, String>();
-    private List<String> displayBlacklist = new ArrayList<String>();
-    private ArrayAdapter<String> mForecastAdapter;
+    private ArrayList<String> displayBlacklist = new ArrayList<String>();
+    private CustomListViewAdapter adapter;
     private View view;
 
 
@@ -122,6 +122,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
         blacklist = (Hashtable<String, String>) loadHash(blacklist);
 
         //if (blacklist.isEmpty()){}
+        displayBlacklist.clear();
         Enumeration<String> enumKey = blacklist.keys();
         while (enumKey.hasMoreElements()) {
             String name = enumKey.nextElement();
@@ -131,15 +132,17 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
         ;
 
         Collections.sort(displayBlacklist);
-        mForecastAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.contact_list,
-                R.id.blacklist_textview,
-                displayBlacklist);
+//        mForecastAdapter = new ArrayAdapter<String>(
+//                getActivity(),
+//                R.layout.contact_list,
+//                R.id.blacklist_textview,
+//                displayBlacklist);
+
+        adapter = new CustomListViewAdapter(displayBlacklist, context, blacklist);
 
         ListView listView = (ListView) view.findViewById(
                 R.id.listview_blacklist);
-        listView.setAdapter(mForecastAdapter);
+        listView.setAdapter(adapter);
 
         return view;
     }
@@ -263,12 +266,15 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                             cursor.close();
                         }
                         //Toast.makeText(activity, name + ": " + phone, Toast.LENGTH_LONG).show();
-                        if (! blacklist.containsKey(name)){
-                            blacklist.put(name, phone);}
+                        if (! blacklist.containsKey(name)) {
+                            blacklist.put(name, phone);
 
-                        saveHash(blacklist);
+                            saveHash(blacklist);
+                            displayBlacklist.add(name);
+                            Collections.sort(displayBlacklist);
+                        }
                         //blacklist.clear();
-                        displayBlacklist.clear();
+                        //displayBlacklist.clear();
 
 //                        Enumeration<String> new_enumKey = blacklist.keys();
 //                        while (new_enumKey.hasMoreElements()) {
@@ -300,6 +306,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 
             hash.writeObject(object);
             hash.close();
+            out.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -335,6 +342,8 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 
             ObjectInputStream hash = new ObjectInputStream(new FileInputStream(context.getFilesDir().toString() + "/contacts_hash.txt"));
             table = hash.readObject();
+            hash.close();
+            
             //table = hash;
             //file.delete();
 
