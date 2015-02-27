@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.safeRideFragment">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:text="Your BAC is 0.10. It&apos;s not safe to drive."
+            android:id="@+id/safeRideText"
+            android:layout_gravity="center_horizontal|top"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <ImageView
+            android:layout_width="257dp"
+            android:layout_height="257dp"
+            android:id="@+id/taxiView"
+            android:src="@drawable/taxi"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="30dp" />
+
+        <ImageButton
+            android:layout_width="242dp"
+            android:layout_height="242dp"
+            android:id="@+id/uberView"
+            android:src="@drawable/uber"
+            android:layout-marginLeft="30px"
+            android:layout_gravity="left|bottom"
+            android:layout_marginLeft="30dp" />
+
+    </FrameLayout>
+
+</LinearLayout>

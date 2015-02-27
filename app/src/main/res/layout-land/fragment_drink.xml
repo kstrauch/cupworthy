@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.drinkFragment">
+
+
+
+        <TextView
+            android:layout_width="136dp"
+            android:layout_height="103dp"
+            android:text=""
+            android:textSize="40px"
+            android:id="@+id/bacText"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal|top"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButtonSolo"
+            android:src="@drawable/redcup"
+            android:gravity="bottom|left|center"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="114dp"
+            android:id="@+id/imageButtonShot"
+            android:src="@drawable/shot"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="right|top"
+            android:layout_alignBottom="@+id/imageButtonMikes"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="137dp"
+            android:id="@+id/imageButtonIce"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/smirnoff_ice"
+            android:layout_gravity="right|bottom"
+            android:layout_above="@+id/imageButtonMikes"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="47dp"
+            android:layout_marginEnd="47dp" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="183dp"
+            android:id="@+id/imageButtonMikes"
+            android:src="@drawable/mikes"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="right|center_vertical"
+            android:layout_alignTop="@+id/imageButtonBeer"
+            android:layout_toLeftOf="@+id/imageButtonIce"
+            android:layout_toStartOf="@+id/imageButtonIce" />
+
+        <ImageButton
+            android:layout_width="130dp"
+            android:layout_height="171dp"
+            android:id="@+id/imageButtonBeer"
+            android:src="@drawable/keystone"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/imageButtonSolo"
+            android:layout_toStartOf="@+id/imageButtonSolo" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButtonWine"
+            android:src="@drawable/red_wine"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="left|bottom"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageButtonChampagne"
+            android:layout_toEndOf="@+id/imageButtonChampagne" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButtonChampagne"
+            android:src="@drawable/champagne"
+            android:layout_gravity="left|top"
+            android:gravity="bottom|right"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="40px"
+        android:id="@+id/bacDetails"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical|center_horizontal" />
+
+</LinearLayout>

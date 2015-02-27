@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.jam.ksm.cupworthy.hydrationFragment"
+    android:id="@+id/">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="You are dehydrated"
+            android:textSize="60px"
+            android:gravity="center"
+            android:id="@+id/hydrationText"
+            android:layout_gravity="center_horizontal|top" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="You need to drink 3 glasses of water to rehydrate"
+            android:id="@+id/howManyGlassesNeeded"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/linear_layout">
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:id="@+id/drinkAGlass"
+        android:text="+1 Glass"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/glass1"
+        android:layout_toEndOf="@+id/glass1" />
+
+    <ImageView
+        android:layout_width="89dp"
+        android:layout_height="81dp"
+        android:id="@+id/plus_sign"
+        android:src="@drawable/plus_sign"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/glass3"
+        android:layout_toEndOf="@+id/glass3" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/glass2"
+        android:layout_gravity="bottom"
+        android:src="@drawable/glass_water"
+        android:layout_above="@+id/drinkAGlass"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/glass3"
+        android:layout_gravity="bottom"
+        android:src="@drawable/glass_water"
+        android:layout_below="@+id/linearLayout"
+        android:layout_toRightOf="@+id/glass2"
+        android:layout_toEndOf="@+id/glass2"
+        android:layout_marginTop="39dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/glass1"
+        android:layout_gravity="bottom"
+        android:src="@drawable/glass_water"
+        android:layout_above="@+id/drinkAGlass"
+        android:layout_toLeftOf="@+id/glass2"
+        android:layout_toStartOf="@+id/glass2" />
+
+
+</RelativeLayout>

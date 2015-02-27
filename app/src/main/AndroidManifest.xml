@@ -19,16 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
-        <activity
             android:name=".prefActivity"
             android:label="@string/title_activity_pref" >
         </activity>
         <activity
             android:name=".cupActivity"
-            android:label="@string/title_activity_cup" >
+            android:label="@string/title_activity_cup"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

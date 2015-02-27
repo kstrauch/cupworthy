@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="126dp"
-        android:text="You're BAC is 0.10. It's not safe to drive."
+        android:text="Your BAC is 0.10. It&apos;s not safe to drive."
         android:id="@+id/safeRideText"
         android:layout_gravity="center_horizontal|top"
         android:gravity="center_vertical|center_horizontal" />
