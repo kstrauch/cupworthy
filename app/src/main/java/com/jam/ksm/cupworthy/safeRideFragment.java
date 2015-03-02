@@ -209,6 +209,7 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
             if(TelephonyManager.CALL_STATE_IDLE == state) {
                 //when this state occurs, and call_flag is set, restart Cupworthy app
                 if(call_flag) {
+                    call_flag = false;
                     Intent i = context.getPackageManager().getLaunchIntentForPackage(
                             context.getPackageName());
 
