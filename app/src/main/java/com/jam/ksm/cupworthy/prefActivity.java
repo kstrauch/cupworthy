@@ -127,13 +127,14 @@ public class prefActivity extends Activity {
             // to see the hints ;)
             ((EditText) findViewById(R.id.editWeight)).setText(mValue);
         }
-        // Load the user email
-        mKey = getString(R.string.preference_key_height);
+        // Load the user height
+        /*mKey = getString(R.string.preference_key_height);
         mValue = mPrefs.getString(mKey, " ");
         if (mValue != " ") {
             ((EditText) findViewById(R.id.editHeight)).setText(mValue);
         }
-        // Load the user phone
+        */
+        // Load the user age
         mKey = getString(R.string.preference_key_age);
         mValue = mPrefs.getString(mKey, "");
         if (mValue != "") {
@@ -152,6 +153,14 @@ public class prefActivity extends Activity {
                     .getChildAt(mIntValue);
             // Check the button.
             radioBtn.setChecked(true);
+        }
+
+
+        // load the taxi number
+        mKey = getString(R.string.preference_key_taxi);
+        mValue = mPrefs.getString(mKey, "");
+        if(mValue != ""){
+            ((EditText) findViewById(R.id.editTaxiNum)).setText(mValue);
         }
 
     }
@@ -175,13 +184,14 @@ public class prefActivity extends Activity {
                 .getText().toString();
         mEditor.putString(mKey, mValue);
 
-        // Save email information
+        /* Save height information
         mKey = getString(R.string.preference_key_height);
         mValue = (String) ((EditText) findViewById(R.id.editHeight)).getText()
                 .toString();
         mEditor.putString(mKey, mValue);
+        */
 
-        // Save phone information
+        // Save weight information
         mKey = getString(R.string.preference_key_weight);
         mValue = (String) ((EditText) findViewById(R.id.editWeight)).getText()
                 .toString();
@@ -193,6 +203,11 @@ public class prefActivity extends Activity {
         int mIntValue = mRadioGroup.indexOfChild(findViewById(mRadioGroup
                 .getCheckedRadioButtonId()));
         mEditor.putInt(mKey, mIntValue);
+
+
+        mKey = getString(R.string.preference_key_taxi);
+        mValue = (String) ((EditText) findViewById(R.id.editTaxiNum)).getText().toString();
+        mEditor.putString(mKey,mValue);
 
         // commit all the changes in the shared preferences
         mEditor.commit();

@@ -20,6 +20,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,6 +61,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
     private static final String DATABASE_NAME = "bac.db";
     private static final int DATABASE_VERSION = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,5 +252,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 
 }

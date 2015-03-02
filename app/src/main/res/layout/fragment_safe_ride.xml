@@ -6,23 +6,25 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="126dp"
-        android:text="Your BAC is 0.10. It&apos;s not safe to drive."
+        android:text=""
         android:id="@+id/safeRideText"
         android:layout_gravity="center_horizontal|top"
         android:gravity="center_vertical|center_horizontal" />
 
     <ImageButton
-        android:layout_width="257dp"
-        android:layout_height="257dp"
+        android:layout_width="185dp"
+        android:layout_height="160dp"
         android:id="@+id/uberView"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/uber"
         android:layout_gravity="center" />
 
-    <ImageView
-        android:layout_width="300px"
-        android:layout_height="300px"
+    <ImageButton
+        android:layout_width="205dp"
+        android:layout_height="199dp"
         android:id="@+id/taxiView"
         android:src="@drawable/taxi"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="center_horizontal|bottom" />
 
 </FrameLayout>

@@ -33,13 +33,15 @@
     <string name="title_age_preference">Age (years)</string>
     <string name="title_height_preference">Height (inches)</string>
     <string name="title_weight_preference">Weight (pounds)</string>
-    <string name="title_gender_preference">Gender</string>
+    <string name="title_gender_preference">Sex</string>
+    <string name="title_cab_preference">Local Taxi #</string>
     <string name="title_gender_female">Female</string>
     <string name="title_gender_male">Male</string>
     <string name="title_activity_pref">prefActivity</string>
     <string name="hint_weight">150</string>
     <string name="hint_height">65</string>
     <string name="hint_age">22</string>
+    <string name="hint_taxi">(555)555-5555</string>
     <string name="title_save">Save</string>
     <string name="title_cancel">Cancel</string>
 
@@ -52,6 +54,7 @@
     <string name="preference_key_start_time">start_time</string>
     <string name="preference_key_consumption">consumption</string>
     <string name="preference_key_bac">bac</string>
+    <string name="preference_key_taxi">taxi</string>
     <string name="title_activity_cup">cupActivity</string>
 
 </resources>

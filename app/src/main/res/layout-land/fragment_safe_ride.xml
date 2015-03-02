@@ -29,7 +29,6 @@
             android:layout_height="242dp"
             android:id="@+id/uberView"
             android:src="@drawable/uber"
-            android:layout-marginLeft="30px"
             android:layout_gravity="left|bottom"
             android:layout_marginLeft="30dp" />
 

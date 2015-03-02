@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -36,8 +40,12 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
 
     private SharedPreferences mPrefs;
     private String mKey;
+    private Context context;
 
-    private ImageButton uberButton;
+
+    private boolean call_flag;
+
+    private ImageButton uberButton, taxiButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -90,15 +98,32 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
         uberButton = (ImageButton) view.findViewById(R.id.uberView);
         uberButton.setOnClickListener(this);
 
+        taxiButton = (ImageButton) view.findViewById(R.id.taxiView);
+        taxiButton.setOnClickListener(this);
+
+        call_flag = false;
+        context = getActivity();
+
+        EndCallListener callListener = new EndCallListener();
+        TelephonyManager mTM = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        mTM.listen(callListener, PhoneStateListener.LISTEN_CALL_STATE);
+
+
         if(bac == ""){
             bac = "0.0";
         }
 
+        // if the user is not safe to drive, enable the imagebuttons -- so that when clicked they
+        // open Uber or call a local taxi, respectively...
         if (Double.parseDouble(bac) > 0.08){
             safeText.setText("Your bac is " + bac + ". It is not safe to drive. Hire an Uber or Taxi!");
+            uberButton.setOnClickListener(this);
+            taxiButton.setOnClickListener(this);
         }
         else{
             safeText.setText("Your bac is " + bac + ". It is safe to drive :)");
+            uberButton.setOnClickListener(null);
+            taxiButton.setOnClickListener(null);
 
         }
 
@@ -134,11 +159,67 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            // open Uber App when the button is pressed
             case R.id.uberView:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.uber.com")));
+                PackageManager manager = getActivity().getPackageManager();
+                try {
+                    Intent i = manager.getLaunchIntentForPackage("com.ubercab");
+                    if (i == null)
+                        throw new PackageManager.NameNotFoundException();
+                    i.addCategory(Intent.CATEGORY_LAUNCHER);
+                    startActivity(i);
+                } catch (PackageManager.NameNotFoundException e) {
+                }
                 break;
+            case R.id.taxiView:
+                mKey = getString(R.string.preference_key_taxi);
+                String taxi_num = mPrefs.getString(mKey,"");
+                if (taxi_num != ""){
+                    String url = "tel:" + taxi_num;
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+                    startActivity(intent);
+                }
+                else{
+                    // user hasn't yet entered a local taxi number
+                    Toast.makeText(getActivity(), "Please enter a taxi number in settings", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+
             default:
                 break;
+        }
+    }
+
+
+    /** phone EndCallListener to return to CupWorthy after the Taxi call was made...
+     * code inspiration from StackOverflow:
+     * http://stackoverflow.com/questions/1556987/how-to-make-a-phone-call-in-android-and-come-back-to-my-activity-when-the-call-i
+     */
+    public class EndCallListener extends PhoneStateListener {
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            if(TelephonyManager.CALL_STATE_RINGING == state) {
+            }
+            if(TelephonyManager.CALL_STATE_OFFHOOK == state) {
+                //wait for phone to go off-hook -- means that a call has begun
+                // set the call_flag so that we know our app initiated the call.
+                call_flag = true;
+            }
+            if(TelephonyManager.CALL_STATE_IDLE == state) {
+                //when this state occurs, and call_flag is set, restart Cupworthy app
+                if(call_flag) {
+                    Intent i = context.getPackageManager().getLaunchIntentForPackage(
+                            context.getPackageName());
+
+                    // flag activity single top
+                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    //Uncomment the following if you want to restart the application instead of bring to front.
+                    //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(i);
+                }
+            }
         }
     }
 
