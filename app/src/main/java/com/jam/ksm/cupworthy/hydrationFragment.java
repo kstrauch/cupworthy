@@ -2,6 +2,7 @@ package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +39,9 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
     private OnFragmentInteractionListener mListener;
 
     private Button drinkButton;
+
+    private SharedPreferences mPrefs;
+    private String mKey;
 
     /**
      * Use this factory method to create a new instance of
@@ -83,17 +87,61 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
         Log.d(TAG, drinkButton.getText().toString());
         drinkButton.setOnClickListener(this);
 
-        //Depending on bac set up the number of glasses shown
-        //As of right now, setting them all as visible
-        /*view.findViewById(R.id.glass1).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.glass2).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.glass3).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.glass4).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.glass5).setVisibility(View.VISIBLE);*/
+        mKey = getString(R.string.preference_name);
+        mPrefs = getActivity().getSharedPreferences(mKey, Context.MODE_PRIVATE);
 
+        String setNumber = getNumberOfDrinks();
 
+        TextView drinks = (TextView) view.findViewById(R.id.howManyGlassesNeeded);
+        drinks.setText("You need to drink " + setNumber + " glasses of water to rehydrate");
+
+        Log.d(TAG, "setNumber = " + setNumber);
+
+        //set up the glass image views
+        int drinkValue = Integer.parseInt(setNumber);
+
+        ImageView image;
+        if (drinkValue >= 1){
+            image = (ImageView) view.findViewById(R.id.glass1);
+            image.setVisibility(View.VISIBLE);
+        }
+        if (drinkValue >= 2){
+            image = (ImageView) view.findViewById(R.id.glass2);
+            image.setVisibility(View.VISIBLE);
+        }
+        if (drinkValue >= 3){
+            image = (ImageView) view.findViewById(R.id.glass3);
+            image.setVisibility(View.VISIBLE);
+        }
+        if (drinkValue >= 4){
+            image = (ImageView) view.findViewById(R.id.plus_sign);
+            image.setVisibility(View.VISIBLE);
+        }
 
         return view;
+    }
+
+    String getNumberOfDrinks(){
+        //use sharedPrefs to get the number of drinks you need to drink
+        mKey = "consumption";
+        Log.d(TAG, "just before getting String from Prefs");
+        String temp = mPrefs.getString(mKey, "");
+        Log.d(TAG, temp);
+        if ( temp != "0.0" || temp != "") {
+            Log.d(TAG, "entered if statement");
+            double consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
+            int blah = (int) Math.ceil(consumption /= .6);
+            //convert to string
+            String numberOfDrinks = Integer.toString(blah);
+            Log.d(TAG, "Number of drinks is: " + numberOfDrinks);
+            return numberOfDrinks;
+        }
+        else {
+            return "0";
+        }
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,13 +154,8 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
     public void onClick (View v){
         switch (v.getId()){
             case R.id.drinkAGlass:
-                //TextView howManyDrinks = (TextView) v.findViewById(R.id.howManyGlassesNeeded);
-                //howManyDrinks.setText("blah");
-                //Toast.makeText(getActivity(), "button pressed", Toast.LENGTH_SHORT).show();
                 reduceWaterCups();
-
                 break;
-
             default:
                 break;
         }
@@ -130,23 +173,25 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
         String text = "You need to drink " + newNumber + " glasses of water to rehydrate.";
         textView.setText(text);
 
-        ImageView glass;
+        ImageView image;
 
         switch (numberOfDrinks){
             case 0:
-                glass = (ImageView) getView().findViewById(R.id.glass1);
-                glass.setVisibility(View.INVISIBLE);
+                image = (ImageView) getView().findViewById(R.id.glass1);
+                image.setVisibility(View.INVISIBLE);
                 break;
             case 1:
-                glass = (ImageView) getView().findViewById(R.id.glass2);
-                glass.setVisibility(View.INVISIBLE);
+                image = (ImageView) getView().findViewById(R.id.glass2);
+                image.setVisibility(View.INVISIBLE);
                 break;
             case 2:
-                glass = (ImageView) getView().findViewById(R.id.glass3);
-                glass.setVisibility(View.INVISIBLE);
+                image = (ImageView) getView().findViewById(R.id.glass3);
+                image.setVisibility(View.INVISIBLE);
                 break;
             case 3:
                 //make the plus sign go away, but fix that first
+                image = (ImageView) getView().findViewById(R.id.plus_sign);
+                image.setVisibility(View.INVISIBLE);
                 break;
 
             default:
