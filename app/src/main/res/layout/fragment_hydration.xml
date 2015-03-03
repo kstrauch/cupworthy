@@ -38,24 +38,28 @@
             android:layout_height="wrap_content"
             android:id="@+id/glass1"
             android:layout_gravity="bottom"
+            android:visibility="invisible"
             android:src="@drawable/glass_water" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/glass2"
             android:layout_gravity="bottom"
+            android:visibility="invisible"
             android:src="@drawable/glass_water" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/glass3"
             android:layout_gravity="bottom"
+            android:visibility="invisible"
             android:src="@drawable/glass_water" />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/plus_sign"
             android:layout_gravity="bottom"
+            android:visibility="invisible"
             android:src="@drawable/plus_sign" />
 
     </LinearLayout>
