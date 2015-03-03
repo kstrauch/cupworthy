@@ -43,7 +43,7 @@ public class Globals {
     public static final int MILLIS_PER_DAY = 1000 * 3600 * 24;
 
     public final static double[] ALC_ARRAY = {BEER_CONTENT, LIGHT_BEER_CONTENT, WINE_CONTENT, WINE_COOLER_CONTENT, VODKA_CONTENT, GIN_CONTENT, RUM_CONTENT, TEQUILA_CONTENT, BOURBON_CONTENT, SCOTCH_CONTENT};
-
+    //public final static String[] ALC_NAME = {"Beer", "Light Beer", "Wine", "Wine Cooler", "Vodka",""};
 
     public static final int RESULT_OK = 0;
     public static final int RED_CUP_INTENT = 1;

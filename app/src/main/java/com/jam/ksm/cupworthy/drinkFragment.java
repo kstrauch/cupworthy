@@ -197,60 +197,73 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
                 //    Toast.makeText(getActivity(), "enter pressed", Toast.LENGTH_SHORT).show();
                 //    break;
                 case R.id.imageButtonBeer:
-                    Toast.makeText(getActivity(), "beer pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(getActivity(), mPrefs,Globals.TYPE_BEER, Globals.BEER_AMT);
-                    bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    displayAlertDialog(Globals.BEER_AMT, Globals.TYPE_LIGHT_BEER, "Keystone Light");
+                    /*Toast.makeText(getActivity(), "beer pressed", Toast.LENGTH_SHORT).show();
+                    //addDrink(getActivity(), mPrefs,Globals.TYPE_BEER, Globals.BEER_AMT);
+                    //bac = calculateBAC();
+                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();*/
 
                     break;
                 case R.id.imageButtonIce:
-                    Toast.makeText(getActivity(), "ice pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(getActivity(), mPrefs,Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
-                    bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    displayAlertDialog(Globals.COOLER_AMT, Globals.TYPE_WINE_COOLER, "Smirnoff Ice");
+                    //Toast.makeText(getActivity(), "ice pressed", Toast.LENGTH_SHORT).show();
+                    //addDrink(getActivity(), mPrefs,Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
+                    //bac = calculateBAC();
+                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.imageButtonShot:
-                    Toast.makeText(getActivity(), "shot pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(getActivity(), mPrefs,Globals.TYPE_VODKA, Globals.HARD_AMT);
-                    bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    displayAlertDialog(Globals.HARD_AMT, Globals.TYPE_VODKA, "shot");
+                    //Toast.makeText(getActivity(), "shot pressed", Toast.LENGTH_SHORT).show();
+                    //addDrink(getActivity(), mPrefs,Globals.TYPE_VODKA, Globals.HARD_AMT);
+                    //bac = calculateBAC();
+                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.imageButtonWine:
-                    Toast.makeText(getActivity(), "wine pressed", Toast.LENGTH_SHORT).show();
+                    displayAlertDialog(Globals.WINE_AMT, Globals.TYPE_WINE, "wine");
+                    /*Toast.makeText(getActivity(), "wine pressed", Toast.LENGTH_SHORT).show();
                     addDrink(getActivity(), mPrefs, Globals.TYPE_WINE, Globals.WINE_AMT);
                     bac = calculateBAC();
                     Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    */
                     break;
                 case R.id.imageButtonChampagne:
-                    Toast.makeText(getActivity(), "champagne pressed", Toast.LENGTH_SHORT).show();
+                    displayAlertDialog(Globals.WINE_AMT, Globals.TYPE_WINE, "champagne");
+                    /*Toast.makeText(getActivity(), "champagne pressed", Toast.LENGTH_SHORT).show();
                     addDrink(getActivity(), mPrefs,Globals.TYPE_WINE, Globals.WINE_AMT);
                     bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();*/
                     break;
                 case R.id.imageButtonMikes:
+                    displayAlertDialog(Globals.COOLER_AMT, Globals.TYPE_WINE_COOLER, "Mike's Hard");
+                    /*
                     Toast.makeText(getActivity(), "mikes pressed", Toast.LENGTH_SHORT).show();
                     addDrink(getActivity(), mPrefs,Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
                     bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();*/
                     break;
                 case R.id.imageButtonSolo:
+                    //displayAlertDialog(Globals.RED, Globals.TYPE_WINE_COOLER);
                     Toast.makeText(getActivity(), "red cup pressed", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), cupActivity.class);
                     startActivityForResult(intent, Globals.RED_CUP_INTENT);
-                   // bac = calculateBAC();
-                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    bac = calculateBAC();
+                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    setText("Your BAC is: " + df.format(bac), R.id.bacText);
+                    setText(getBACInfo(bac), R.id.bacDetails);
+
                     break;
                 default:
                     break;
             }
 
-        DecimalFormat df = new DecimalFormat("0.00");
+        /*DecimalFormat df = new DecimalFormat("0.00");
         // df.format(0.912385);
 
         setText("Your BAC is: " + df.format(bac), R.id.bacText);
-        setText(getBACInfo(bac), R.id.bacDetails);
+        setText(getBACInfo(bac), R.id.bacDetails);*/
     }
 
 
@@ -393,13 +406,16 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         return text;
     }
 
-    public boolean displayAlertDialog() {
+    public boolean displayAlertDialog(double amount, int type, String name) {
+        final int alc_type = type;
+        final double alc_amount = amount;
+        final String alc_name = name;
 
         Context context = getActivity();
         String title = "Drink Confirmation";
-        String message = "Are you sure you'd like to add this drink?";
+        String message = "Are you sure you'd like to add drink, " + alc_name + "?";
         String button1String = "Yes";
-        String button2String = "Cancel";
+        String button2String = "No";
 
         AlertDialog.Builder ad = new AlertDialog.Builder(context);
         ad.setTitle(title);
@@ -410,6 +426,13 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int arg1) {
                         confirmation = true;
+                        addDrink(getActivity(), mPrefs, alc_type, alc_amount);
+                        double bac = calculateBAC();
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        // df.format(0.912385);
+                        setText("Your BAC is: " + df.format(bac), R.id.bacText);
+                        setText(getBACInfo(bac), R.id.bacDetails);
+
                     }
                 }
         );
