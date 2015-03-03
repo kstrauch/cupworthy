@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     public void onPause(){
         super.onPause();
         if(isReceiverRegistered) {
-            unregisterReceiver(receiver);
+            //unregisterReceiver(receiver);
             Log.d("CS69","unregistered phone receiver");
         }
     }
@@ -297,34 +297,35 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
 
             number = phoneNumber;
-            Toast.makeText(context, "number dialed was " + number +"!", Toast.LENGTH_SHORT);
+            Toast.makeText(context, "number dialed was " + number + "!", Toast.LENGTH_SHORT);
 
             boolean isBlocked = Arrays.asList(blockedNumbers).contains(number);
 
             // block outgoing call if number is blacklisted....
 
-            if (isBlocked){
+            if (isBlocked) {
 
 
-            try {
-                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                try {
+                    TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
-                Class<?> c = Class.forName(tm.getClass().getName());
-                Method m = c.getDeclaredMethod("getITelephony");
-                m.setAccessible(true);
-                Object telephonyService = m.invoke(tm);
-                Class<?> telephonyServiceClass = Class.forName(telephonyService.getClass().getName());
-                Method endCallMethod = telephonyServiceClass.getDeclaredMethod("endCall");
-                endCallMethod.invoke(telephonyService);
-                Toast.makeText(context, "sorry number was blocked!", Toast.LENGTH_SHORT);
-            } catch (Exception e) {
-                e.printStackTrace();
+                    Class<?> c = Class.forName(tm.getClass().getName());
+                    Method m = c.getDeclaredMethod("getITelephony");
+                    m.setAccessible(true);
+                    Object telephonyService = m.invoke(tm);
+                    Class<?> telephonyServiceClass = Class.forName(telephonyService.getClass().getName());
+                    Method endCallMethod = telephonyServiceClass.getDeclaredMethod("endCall");
+                    endCallMethod.invoke(telephonyService);
+                    Toast.makeText(context, "sorry number was blocked!", Toast.LENGTH_SHORT);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
+    }
     }
 
 
 
 
 
-}
