@@ -20,6 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.lang.reflect.Method;
+
+import static java.lang.Class.forName;
+
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -85,7 +90,7 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_safe_ride, container, false);
+        View view = inflater.inflate(R.layout.fragment_safe_ride, container, false);
 
         TextView safeText = (TextView) view.findViewById(R.id.safeRideText);
 
@@ -93,7 +98,7 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
         mPrefs = getActivity().getSharedPreferences(mKey, Context.MODE_PRIVATE);
 
         mKey = getString(R.string.preference_key_bac);
-        String bac = mPrefs.getString(mKey,"");
+        String bac = mPrefs.getString(mKey, "");
 
         uberButton = (ImageButton) view.findViewById(R.id.uberView);
         uberButton.setOnClickListener(this);
@@ -104,29 +109,27 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
         call_flag = false;
         context = getActivity();
 
-        EndCallListener callListener = new EndCallListener();
+        EndCallListener callListener = new EndCallListener(context);
         TelephonyManager mTM = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         mTM.listen(callListener, PhoneStateListener.LISTEN_CALL_STATE);
 
 
-        if(bac == ""){
+        if (bac == "") {
             bac = "0.0";
         }
 
         // if the user is not safe to drive, enable the imagebuttons -- so that when clicked they
         // open Uber or call a local taxi, respectively...
-        if (Double.parseDouble(bac) > 0.08){
+        if (Double.parseDouble(bac) > 0.08) {
             safeText.setText("Your bac is " + bac + ". It is not safe to drive. Hire an Uber or Taxi!");
             uberButton.setOnClickListener(this);
             taxiButton.setOnClickListener(this);
-        }
-        else{
+        } else {
             safeText.setText("Your bac is " + bac + ". It is safe to drive :)");
             uberButton.setOnClickListener(null);
             taxiButton.setOnClickListener(null);
 
         }
-
 
 
         return view;
@@ -158,7 +161,7 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             // open Uber App when the button is pressed
             case R.id.uberView:
                 PackageManager manager = getActivity().getPackageManager();
@@ -176,13 +179,12 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.taxiView:
                 mKey = getString(R.string.preference_key_taxi);
-                String taxi_num = mPrefs.getString(mKey,"");
-                if (taxi_num != ""){
+                String taxi_num = mPrefs.getString(mKey, "");
+                if (taxi_num != "") {
                     String url = "tel:" + taxi_num;
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
                     startActivity(intent);
-                }
-                else{
+                } else {
                     // user hasn't yet entered a local taxi number
                     Toast.makeText(getActivity(), "Please enter a taxi number in settings", Toast.LENGTH_SHORT).show();
                 }
@@ -195,23 +197,31 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    /** phone EndCallListener to return to CupWorthy after the Taxi call was made...
+    /**
+     * phone EndCallListener to return to CupWorthy after the Taxi call was made...
      * code inspiration from StackOverflow:
      * http://stackoverflow.com/questions/1556987/how-to-make-a-phone-call-in-android-and-come-back-to-my-activity-when-the-call-i
      */
     public class EndCallListener extends PhoneStateListener {
+        Context context;
+
+        public EndCallListener(Context context) {
+            super();
+            this.context = context;
+        }
+
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
-            if(TelephonyManager.CALL_STATE_RINGING == state) {
+            if (TelephonyManager.CALL_STATE_RINGING == state) {
             }
-            if(TelephonyManager.CALL_STATE_OFFHOOK == state) {
+            if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
                 //wait for phone to go off-hook -- means that a call has begun
                 // set the call_flag so that we know our app initiated the call.
                 call_flag = true;
             }
-            if(TelephonyManager.CALL_STATE_IDLE == state) {
+            if (TelephonyManager.CALL_STATE_IDLE == state) {
                 //when this state occurs, and call_flag is set, restart Cupworthy app
-                if(call_flag) {
+                if (call_flag) {
                     call_flag = false;
                     Intent i = context.getPackageManager().getLaunchIntentForPackage(
                             context.getPackageName());
@@ -225,7 +235,25 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }
+
+        private void endCallIfBlocked(String callingNumber) {
+            try {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+                Class<?> c = Class.forName(tm.getClass().getName());
+                Method m = c.getDeclaredMethod("getITelephony");
+                m.setAccessible(true);
+                Object telephonyService = m.invoke(tm);
+                Class<?> telephonyServiceClass = Class.forName(telephonyService.getClass().getName());
+                Method endCallMethod = telephonyServiceClass.getDeclaredMethod("endCall");
+                endCallMethod.invoke(telephonyService);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

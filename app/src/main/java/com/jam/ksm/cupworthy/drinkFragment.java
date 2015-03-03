@@ -2,6 +2,7 @@ package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,6 +53,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
     private String mKey;
 
     private boolean confirmation;
+    private String number;
 
     // used for BAC formula
     private double ALC_CONST = 5.14;
@@ -466,6 +468,8 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
             }
         }
+
+
 
 
 }

@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -12,8 +15,10 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -62,20 +67,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     private static final String DATABASE_NAME = "bac.db";
     private static final int DATABASE_VERSION = 1;
 
+    private String number;
+    private IntentFilter filter;
+    private boolean isReceiverRegistered;
+    private OutgoingCallReceiver receiver;
+    private String blockedNumbers[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // database stuff
-        //Context context = getApplicationContext();
-        //bacDBHelper = new MySQLiteHelper(this);
-        //database = bacDBHelper.getWritableDatabase();
-        //createDatabase();
-
-        //BACEntry bacEntry = bacDBHelper.fetchEntry("f",90,3);
-        //Toast.makeText(this, "weight is " + bacEntry.getWeight() +  " bac is" + bacEntry.getBAC(),Toast.LENGTH_SHORT).show();
+        //set up blocked # list
+        blockedNumbers = new String[] {"9148743753"};
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -99,6 +103,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
             }
         });
 
+
         // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
@@ -112,8 +117,31 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        filter = new IntentFilter();
+        filter.addAction("android.intent.action.PHONE_STATE");
+        filter.addAction("android.intent.action.PHONE_STATE");
+        receiver = new OutgoingCallReceiver();
+        registerReceiver(receiver, filter);
+        isReceiverRegistered = true;
+        Log.d("CS69","registered phone receiver");
+    }
 
-    public void createDatabase(){
+    @Override
+    public void onPause(){
+        super.onPause();
+        if(isReceiverRegistered) {
+            unregisterReceiver(receiver);
+            Log.d("CS69","unregistered phone receiver");
+        }
+    }
+
+
+
+
+/*    public void createDatabase(){
 
         String line = "";
         BufferedReader br = null;
@@ -133,7 +161,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         }
 
 
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,12 +185,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
             startActivity(intent);
             return true;
         }
-        /*else if(id == R.id.action_cup){
-            Toast.makeText(this, "red cup pressed", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, cupActivity.class);
-            startActivity(intent);
-            return true;
-        }*/
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -252,6 +275,56 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+    public class OutgoingCallReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+
+            if (null == bundle)
+                return;
+
+            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+
+            Log.i("OutgoingCallReceiver", phoneNumber);
+            Log.i("OutgoingCallReceiver", bundle.toString());
+
+            String info = "Detect Calls sample application\nOutgoing number: " + phoneNumber;
+
+            Toast.makeText(context, info, Toast.LENGTH_LONG).show();
+
+
+            number = phoneNumber;
+            Toast.makeText(context, "number dialed was " + number +"!", Toast.LENGTH_SHORT);
+
+            boolean isBlocked = Arrays.asList(blockedNumbers).contains(number);
+
+            // block outgoing call if number is blacklisted....
+
+            if (isBlocked){
+
+
+            try {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+                Class<?> c = Class.forName(tm.getClass().getName());
+                Method m = c.getDeclaredMethod("getITelephony");
+                m.setAccessible(true);
+                Object telephonyService = m.invoke(tm);
+                Class<?> telephonyServiceClass = Class.forName(telephonyService.getClass().getName());
+                Method endCallMethod = telephonyServiceClass.getDeclaredMethod("endCall");
+                endCallMethod.invoke(telephonyService);
+                Toast.makeText(context, "sorry number was blocked!", Toast.LENGTH_SHORT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
 
 
 }
