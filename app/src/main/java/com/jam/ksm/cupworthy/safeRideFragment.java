@@ -169,6 +169,9 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
                     i.addCategory(Intent.CATEGORY_LAUNCHER);
                     startActivity(i);
                 } catch (PackageManager.NameNotFoundException e) {
+                    Toast.makeText(getActivity(), "Need to download uber!", Toast.LENGTH_SHORT).show();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ubercab"));
+                    startActivity(browserIntent);
                 }
                 break;
             case R.id.taxiView:
