@@ -73,6 +73,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     private OutgoingCallReceiver receiver;
     private String blockedNumbers[];
 
+    private boolean call_flag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,12 +122,20 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     @Override
     public void onResume(){
         super.onResume();
+
+        // set up broadcast receiver
         filter = new IntentFilter();
         filter.addAction("android.intent.action.PHONE_STATE");
         filter.addAction("android.intent.action.PHONE_STATE");
         receiver = new OutgoingCallReceiver();
         registerReceiver(receiver, filter);
         isReceiverRegistered = true;
+
+        // set up phone state listener
+        EndCallListener callListener = new EndCallListener(this);
+        TelephonyManager mTM = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        mTM.listen(callListener, PhoneStateListener.LISTEN_CALL_STATE);
+
         Log.d("CS69","registered phone receiver");
     }
 
@@ -134,9 +144,18 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         super.onPause();
         if(isReceiverRegistered) {
             //unregisterReceiver(receiver);
-            Log.d("CS69","unregistered phone receiver");
+            //Log.d("CS69","unregistered phone receiver");
         }
     }
+
+   @Override
+   public void onDestroy(){
+       super.onDestroy();
+       if (isReceiverRegistered){
+           unregisterReceiver(receiver);
+           Log.d("CS69","unregistered phone receiver");
+       }
+   }
 
 
 
@@ -277,6 +296,72 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     }
 
 
+    /**
+     * phone EndCallListener to return to CupWorthy after the Taxi call was made...
+     * code inspiration from StackOverflow:
+     * http://stackoverflow.com/questions/1556987/how-to-make-a-phone-call-in-android-and-come-back-to-my-activity-when-the-call-i
+     */
+    public class EndCallListener extends PhoneStateListener {
+        Context context;
+
+        public EndCallListener(Context context) {
+            super();
+            this.context = context;
+        }
+
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            if (TelephonyManager.CALL_STATE_RINGING == state) {
+            }
+            if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+                //wait for phone to go off-hook -- means that a call has begun
+                // set the call_flag so that we know our app initiated the call.
+                call_flag = true;
+                for (String n: blockedNumbers){
+                    if (n == number){
+                        endBlockedCall();
+                        Toast.makeText(getApplicationContext(), "ENDING BLOCKED CALL", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
+            }
+            if (TelephonyManager.CALL_STATE_IDLE == state) {
+                //when this state occurs, and call_flag is set, restart Cupworthy app
+                if (call_flag) {
+                    call_flag = false;
+                    Intent i = context.getPackageManager().getLaunchIntentForPackage(
+                            context.getPackageName());
+
+                    // flag activity single top
+                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    //Uncomment the following if you want to restart the application instead of bring to front.
+                    //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(i);
+                }
+            }
+        }
+
+        private void endBlockedCall() {
+            try {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+                Class<?> c = Class.forName(tm.getClass().getName());
+                Method m = c.getDeclaredMethod("getITelephony");
+                m.setAccessible(true);
+                Object telephonyService = m.invoke(tm);
+                Class<?> telephonyServiceClass = Class.forName(telephonyService.getClass().getName());
+                Method endCallMethod = telephonyServiceClass.getDeclaredMethod("endCall");
+                endCallMethod.invoke(telephonyService);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     public class OutgoingCallReceiver extends BroadcastReceiver {
 
         @Override
@@ -286,41 +371,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
             if (null == bundle)
                 return;
 
-            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+            number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 
-            Log.i("OutgoingCallReceiver", phoneNumber);
+            Log.i("OutgoingCallReceiver", number);
             Log.i("OutgoingCallReceiver", bundle.toString());
 
-            String info = "Detect Calls sample application\nOutgoing number: " + phoneNumber;
+            String info = "Detect Calls sample application\nOutgoing number: " + number;
 
             Toast.makeText(context, info, Toast.LENGTH_LONG).show();
 
-
-            number = phoneNumber;
             Toast.makeText(context, "number dialed was " + number + "!", Toast.LENGTH_SHORT);
 
-            boolean isBlocked = Arrays.asList(blockedNumbers).contains(number);
-
-            // block outgoing call if number is blacklisted....
-
-            if (isBlocked) {
-
-
-                try {
-                    TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-                    Class<?> c = Class.forName(tm.getClass().getName());
-                    Method m = c.getDeclaredMethod("getITelephony");
-                    m.setAccessible(true);
-                    Object telephonyService = m.invoke(tm);
-                    Class<?> telephonyServiceClass = Class.forName(telephonyService.getClass().getName());
-                    Method endCallMethod = telephonyServiceClass.getDeclaredMethod("endCall");
-                    endCallMethod.invoke(telephonyService);
-                    Toast.makeText(context, "sorry number was blocked!", Toast.LENGTH_SHORT);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
     }

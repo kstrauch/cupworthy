@@ -106,13 +106,13 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
         taxiButton = (ImageButton) view.findViewById(R.id.taxiView);
         taxiButton.setOnClickListener(this);
 
-        call_flag = false;
+        //call_flag = false;
         context = getActivity();
 
-        EndCallListener callListener = new EndCallListener(context);
+       /* EndCallListener callListener = new EndCallListener(context);
         TelephonyManager mTM = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         mTM.listen(callListener, PhoneStateListener.LISTEN_CALL_STATE);
-
+*/
 
         if (bac == "") {
             bac = "0.0";
@@ -201,7 +201,7 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
      * phone EndCallListener to return to CupWorthy after the Taxi call was made...
      * code inspiration from StackOverflow:
      * http://stackoverflow.com/questions/1556987/how-to-make-a-phone-call-in-android-and-come-back-to-my-activity-when-the-call-i
-     */
+     *
     public class EndCallListener extends PhoneStateListener {
         Context context;
 
@@ -253,7 +253,7 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
+*/
 
     /**
      * This interface must be implemented by activities that contain this
