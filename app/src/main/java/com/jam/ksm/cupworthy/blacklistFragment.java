@@ -254,7 +254,12 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                         // let's just get the first email
                         if (cursor.moveToFirst()) {
                             phone = cursor.getString(phoneIdx);
+                            phone = phone.replace("(","");
+                            phone = phone.replace(")","");
+                            phone = phone.replace(" ", "");
+                            phone = phone.replace("-", "");
                             name = cursor.getString(nameId);
+
 
                         } else {
                             Log.w(DEBUG_TAG, "No results");
