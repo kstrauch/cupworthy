@@ -4,8 +4,6 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tuenti.smsradar/library/1.0.4/de722a38241554d57d4ab4835a6ac68fcde2c377/library-1.0.4.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tuenti.smsradar/library/1.0.4/203bdee33c8706c7bf5db1942ad6b65b0d4221ab/library-1.0.4-sources.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

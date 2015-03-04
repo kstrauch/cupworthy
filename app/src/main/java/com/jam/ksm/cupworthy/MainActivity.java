@@ -77,7 +77,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
     private String number;
     private IntentFilter filter;
-    private boolean isReceiverRegistered;
+    private boolean isReceiverRegistered = false;
     private OutgoingCallReceiver receiver;
     private String blockedNumbers[];
     private Hashtable<String, String> blacklist = new Hashtable<String, String>();
@@ -160,10 +160,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 Toast.makeText(context, "sms sent", Toast.LENGTH_LONG).show();
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash(blacklist, context);
 
-                String number = sms.getAddress();
+                String phone_number = sms.getAddress();
+                Toast.makeText(context, "phone_number = " + phone_number, Toast.LENGTH_LONG).show();
 
                 if (blacklist.containsValue(number)) {
-                    //notificationManager.notify(1, warning.build());
+                    notificationManager.notify(1, warning.build());
                 }
 
 
@@ -189,8 +190,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         filter = new IntentFilter();
         filter.addAction("android.intent.action.NEW_OUTGOING_CALL");
         receiver = new OutgoingCallReceiver();
-        registerReceiver(receiver, filter);
-        isReceiverRegistered = true;
+        if (! isReceiverRegistered){
+            registerReceiver(receiver, filter);
+            isReceiverRegistered = true;
+        }
 
         // set up phone state listener
         EndCallListener callListener = new EndCallListener(this);
@@ -205,6 +208,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         super.onPause();
         if(isReceiverRegistered) {
             //unregisterReceiver(receiver);
+            isReceiverRegistered = false;
             //Log.d("CS69","unregistered phone receiver");
         }
     }

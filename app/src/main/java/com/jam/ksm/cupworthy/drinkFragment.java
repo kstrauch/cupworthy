@@ -290,6 +290,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         mKey = context.getString(R.string.preference_key_consumption);
 
         double consumption;
+
         if (mPrefs.getString(mKey, "") != "") {
             consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
         } else {
@@ -297,6 +298,19 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         }
         consumption += oz_alc;
         mEditor.putString(mKey, "" + consumption);
+
+        mKey = context.getString(R.string.preference_key_drink_number);
+
+        double drink_num;
+
+        if (mPrefs.getString(mKey, "") != "") {
+            drink_num = Double.parseDouble(mPrefs.getString(mKey, ""));
+        } else {
+            drink_num = 0.0;
+        }
+        drink_num += oz_alc;
+        mEditor.putString(mKey, "" + drink_num);
+
         mEditor.commit();
 
 

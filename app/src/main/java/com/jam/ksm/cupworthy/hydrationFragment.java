@@ -123,7 +123,7 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
 
     String getNumberOfDrinks(){
         //use sharedPrefs to get the number of drinks you need to drink
-        mKey = "consumption";
+        mKey = "drink_number";
         Log.d(TAG, "just before getting String from Prefs");
         String temp = mPrefs.getString(mKey, "");
         Log.d(TAG, temp);
@@ -162,7 +162,9 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
     }
 
     public void reduceWaterCups(){
-        Log.d(TAG, "in reduce water cups");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        String mKey;
+
         TextView textView = (TextView) getView().findViewById(R.id.howManyGlassesNeeded);
         CharSequence message = textView.getText();
         int numberOfDrinks = Integer.parseInt(Character.toString(message.charAt(18)));
@@ -198,6 +200,19 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
                 break;
         }
 
+        mKey = "drink_number";
+        double drink_num;
+        if (mPrefs.getString(mKey, "") != "") {
+            drink_num = Double.parseDouble(mPrefs.getString(mKey, ""));
+        } else
+            drink_num = 0.0;
+
+        if (drink_num != 0.0){
+            drink_num -= 1.0;
+        }
+
+        mEditor.putString(mKey, "" + drink_num);
+        mEditor.commit();
     }
 
     @Override
