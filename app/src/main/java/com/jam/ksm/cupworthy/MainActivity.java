@@ -15,6 +15,9 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,6 +27,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -38,6 +42,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.net.Uri;
 import android.content.Intent;
+
+import com.tuenti.smsradar.SmsListener;
+import com.tuenti.smsradar.SmsRadar;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -74,6 +82,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     private String blockedNumbers[];
     private Hashtable<String, String> blacklist = new Hashtable<String, String>();
 
+    private Context context;
     private boolean call_flag;
 
     @Override
@@ -107,6 +116,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         });
 
 
+        context = this;
+
         // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
@@ -118,6 +129,56 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        final NotificationCompat.Builder warning =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.smirnoff_ice)
+                        .setContentTitle("My Notification")
+                        .setContentText("testingtesting");
+
+
+        //taken from android developer site
+        Intent notification = new Intent(this, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(notification);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0, PendingIntent.FLAG_UPDATE_CURRENT);
+        warning.setContentIntent(resultPendingIntent);
+        final NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(1, warning.build());
+
+        SmsRadar.initializeSmsRadarService(context, new SmsListener() {
+
+
+//            blacklist = (Hashtable<String, String>) loadHash(blacklist);
+
+            public void onSmsSent(com.tuenti.smsradar.Sms sms) {
+                Toast.makeText(context, "sms sent", Toast.LENGTH_LONG).show();
+                blacklist = (Hashtable<String, String>) blacklistFragment.loadHash(blacklist, context);
+
+                String number = sms.getAddress();
+
+                if (blacklist.containsValue(number)) {
+                    //notificationManager.notify(1, warning.build());
+                }
+
+
+            }
+
+            @Override
+            public void onSmsReceived(com.tuenti.smsradar.Sms sms) {
+                //don't need to do anything here
+                Toast.makeText(context, "sms received", Toast.LENGTH_LONG).show();
+
+
+            }
+
+        });
+
     }
 
     @Override
