@@ -317,12 +317,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 //wait for phone to go off-hook -- means that a call has begun
                 // set the call_flag so that we know our app initiated the call.
                 call_flag = true;
-                for (String n: blockedNumbers){
-                    if (n == number){
-                        endBlockedCall();
-                        Toast.makeText(getApplicationContext(), "ENDING BLOCKED CALL", Toast.LENGTH_SHORT).show();
-                    }
+                if(Arrays.asList(blockedNumbers).contains(number)){
+                    endBlockedCall();
+                    Toast.makeText(getApplicationContext(), "ENDING BLOCKED CALL", Toast.LENGTH_SHORT).show();
                 }
+
 
 
             }
