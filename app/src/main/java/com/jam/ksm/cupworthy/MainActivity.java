@@ -125,8 +125,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         // set up broadcast receiver
         filter = new IntentFilter();
-        filter.addAction("android.intent.action.PHONE_STATE");
-        filter.addAction("android.intent.action.PHONE_STATE");
+        filter.addAction("android.intent.action.NEW_OUTGOING_CALL");
         receiver = new OutgoingCallReceiver();
         registerReceiver(receiver, filter);
         isReceiverRegistered = true;
@@ -365,15 +364,16 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
+            //Bundle bundle = intent.getExtras();
 
-            if (null == bundle)
+            /*if (null == bundle)
                 return;
+            */
 
             number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 
             Log.i("OutgoingCallReceiver", number);
-            Log.i("OutgoingCallReceiver", bundle.toString());
+            //Log.i("OutgoingCallReceiver", bundle.toString());
 
             String info = "Detect Calls sample application\nOutgoing number: " + number;
 
