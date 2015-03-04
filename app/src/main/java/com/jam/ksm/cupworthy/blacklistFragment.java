@@ -119,7 +119,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 
 
 
-        blacklist = (Hashtable<String, String>) loadHash(blacklist);
+        blacklist = (Hashtable<String, String>) loadHash(blacklist, context);
 
         //if (blacklist.isEmpty()){}
         displayBlacklist.clear();
@@ -269,7 +269,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                         if (! blacklist.containsKey(name)) {
                             blacklist.put(name, phone);
 
-                            saveHash(blacklist);
+                            saveHash(blacklist, context);
                             displayBlacklist.add(name);
                             Collections.sort(displayBlacklist);
                         }
@@ -296,7 +296,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    public void saveHash(Serializable object){
+    public static void saveHash(Serializable object, Context context){
         try{
             File file = new File(context.getFilesDir(), "contacts_hash.txt");
             file.delete();
@@ -321,7 +321,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 //        }
     }
 
-    public Object loadHash(Hashtable<String, String> toSave){
+    public static Object loadHash(Hashtable<String, String> toSave, Context context){
         Object table = null;
         //Hashtable<String, String> emptyTable;
         try {
@@ -335,7 +335,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                 //Creates a fresh new hashTable
                 //emptyTable = new Hashtable<String, String>();
                 //emptyTable.put("TestName", "TestNum");
-                saveHash(toSave);
+                blacklistFragment.saveHash(toSave, context);
             }
 
 

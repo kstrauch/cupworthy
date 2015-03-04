@@ -72,6 +72,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     private boolean isReceiverRegistered;
     private OutgoingCallReceiver receiver;
     private String blockedNumbers[];
+    private Hashtable<String, String> blacklist = new Hashtable<String, String>();
 
     private boolean call_flag;
 
@@ -303,6 +304,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     public class EndCallListener extends PhoneStateListener {
         Context context;
 
+
         public EndCallListener(Context context) {
             super();
             this.context = context;
@@ -316,7 +318,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 //wait for phone to go off-hook -- means that a call has begun
                 // set the call_flag so that we know our app initiated the call.
                 call_flag = true;
-                if(Arrays.asList(blockedNumbers).contains(number)){
+
+                blacklist = (Hashtable<String, String>) blacklistFragment.loadHash( blacklist,context);
+                if(blacklist.containsValue(number)){
                     endBlockedCall();
                     Toast.makeText(getApplicationContext(), "ENDING BLOCKED CALL", Toast.LENGTH_SHORT).show();
                 }
@@ -369,7 +373,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
             /*if (null == bundle)
                 return;
             */
-
             number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 
             Log.i("OutgoingCallReceiver", number);
