@@ -1,53 +1,29 @@
 package com.jam.ksm.cupworthy;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Locale;
-
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.net.Uri;
-import android.content.Intent;
 
-import com.tuenti.smsradar.SmsListener;
-import com.tuenti.smsradar.SmsRadar;
-
-import java.util.Map;
-import java.util.HashMap;
+import java.lang.reflect.Method;
+import java.util.Hashtable;
+import java.util.Locale;
 
 
 public class MainActivity extends Activity implements ActionBar.TabListener, hydrationFragment.OnFragmentInteractionListener, drinkFragment.OnFragmentInteractionListener, safeRideFragment.OnFragmentInteractionListener, blacklistFragment.OnFragmentInteractionListener {
@@ -130,6 +106,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                             .setTabListener(this));
         }
 
+        /**
+         * NOTIFICATIONS ON TEXT...
+         * /
         final NotificationCompat.Builder warning =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.smirnoff_ice)
@@ -149,13 +128,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         final NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(1, warning.build());
-
         SmsRadar.initializeSmsRadarService(context, new SmsListener() {
 
-
 //            blacklist = (Hashtable<String, String>) loadHash(blacklist);
-
             public void onSmsSent(com.tuenti.smsradar.Sms sms) {
                 Toast.makeText(context, "sms sent", Toast.LENGTH_LONG).show();
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash(blacklist, context);
@@ -166,8 +141,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 if (blacklist.containsValue(number)) {
                     notificationManager.notify(1, warning.build());
                 }
-
-
             }
 
             @Override
@@ -178,7 +151,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
             }
 
-        });
+        });*/
 
     }
 
@@ -194,7 +167,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
             registerReceiver(receiver, filter);
             isReceiverRegistered = true;
         }
-
         // set up phone state listener
         EndCallListener callListener = new EndCallListener(this);
         TelephonyManager mTM = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -383,7 +355,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 //wait for phone to go off-hook -- means that a call has begun
                 // set the call_flag so that we know our app initiated the call.
                 call_flag = true;
-
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash( blacklist,context);
                 if(blacklist.containsValue(number)){
                     endBlockedCall();
@@ -433,15 +404,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            //Bundle bundle = intent.getExtras();
 
-            /*if (null == bundle)
-                return;
-            */
             number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 
             Log.i("OutgoingCallReceiver", number);
-            //Log.i("OutgoingCallReceiver", bundle.toString());
 
             String info = "Detect Calls sample application\nOutgoing number: " + number;
 
