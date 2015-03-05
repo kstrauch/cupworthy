@@ -1,5 +1,6 @@
 package com.jam.ksm.cupworthy;
 
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -25,10 +26,16 @@ public class CustomListViewAdapter extends BaseAdapter implements ListAdapter {
     private Context context;
     private Hashtable<String, String> blacklist = new Hashtable<String, String>();
 
+    private SharedPreferences mPrefs;
+    private String mKey;
+    // set up shared preferences
+
+
     public CustomListViewAdapter(ArrayList<String> contacts, Context context, Hashtable<String, String> blacklist){
         this.contacts = contacts;
         this.context = context;
         this.blacklist = blacklist;
+
     }
 
 
@@ -58,17 +65,25 @@ public class CustomListViewAdapter extends BaseAdapter implements ListAdapter {
         TextView contact_text = (TextView) contact_view.findViewById(R.id.blacklist_textview);
         contact_text.setText(contacts.get(i));
 
+        mKey = context.getString(R.string.preference_name);
+        mPrefs = context.getSharedPreferences(mKey, Context.MODE_PRIVATE);
+
         Button deleteBtn = (Button) contact_view.findViewById(R.id.delete_btn);
 
+        // make sure to check that the user is NOT intoxicated when they're deleting from their list...
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View test){
+            public void onClick(View test) {
                 //do the deleting here!
-                blacklist.remove(contacts.get(i));
-                saveHash(blacklist);
-                contacts.remove(i);
+                mKey = context.getString(R.string.preference_key_bac);
+                String level = mPrefs.getString("", mKey);
+                if (level == "" || Double.parseDouble(level) < Globals.INTOX) {
+                    blacklist.remove(contacts.get(i));
+                    saveHash(blacklist);
+                    contacts.remove(i);
 
-                notifyDataSetChanged();
+                    notifyDataSetChanged();
+                }
             }
         });
 

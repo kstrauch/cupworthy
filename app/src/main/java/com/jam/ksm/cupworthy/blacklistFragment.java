@@ -2,6 +2,7 @@ package com.jam.ksm.cupworthy;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -72,6 +73,8 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
     private CustomListViewAdapter adapter;
     private View view;
 
+    private SharedPreferences mPrefs;
+    private String mKey;
 
 
     /**
@@ -117,6 +120,9 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
         contactButton = (Button) view.findViewById(R.id.addContact);
         contactButton.setOnClickListener(this);
 
+        // set up shared preferences
+        mKey = getString(R.string.preference_name);
+        mPrefs = getActivity().getSharedPreferences(mKey, Context.MODE_PRIVATE);
 
 
         blacklist = (Hashtable<String, String>) loadHash(blacklist, context);
@@ -132,12 +138,6 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
         ;
 
         Collections.sort(displayBlacklist);
-//        mForecastAdapter = new ArrayAdapter<String>(
-//                getActivity(),
-//                R.layout.contact_list,
-//                R.id.blacklist_textview,
-//                displayBlacklist);
-
         adapter = new CustomListViewAdapter(displayBlacklist, context, blacklist);
 
         ListView listView = (ListView) view.findViewById(
@@ -174,10 +174,17 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
 
-        contactPickerIntent = new Intent(Intent.ACTION_PICK,
-                Contacts.CONTENT_URI);
-        //getActivity().startActivity(contactPickerIntent)
-        startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
+        // get the BAC from the shared prefs
+        mKey = getString(R.string.preference_key_bac);
+        String bac = mPrefs.getString(mKey, "");
+        if(bac == "" || ( bac!= "" && Double.parseDouble(bac) <= Globals.INTOX)){
+           // double bac_d = Double.parseDouble(bac);
+            contactPickerIntent = new Intent(Intent.ACTION_PICK,Contacts.CONTENT_URI);
+            startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
+        }
+        else{
+            Toast.makeText(context, "You cannot update your blacklist when you are intoxicated!", Toast.LENGTH_LONG);
+        }
     }
 
 
@@ -198,36 +205,6 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
     }
 
 
-
-//    protected void getContactData(int request, int result, Intent data){
-//        if (result == Activity.RESULT_OK) {
-//            switch (request) {
-//                case CONTACT_PICKER_RESULT:
-//                    //ADD STUFF HERE
-//                    Cursor cursor = null;
-//                    String contact = "";
-//
-//                    try{
-//                        Uri contactUri = data.getData();
-//                        Log.v("Contact Data", "Got to a contact result: " + contactUri.toString());
-//
-//                        String id = contactUri.getLastPathSegment();
-//                        cursor = context.getContentResolver().query(Email.CONTACT_ID + "=?", new String[] {id}, null);
-//
-//                        int nameId = cursor.getColumnIndex(Contacts.DISPLAY_NAME);
-//
-//                        int phoneIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.DATA);
-//
-//                        if (cursor.moveToFirst()){
-//                            name = cursor.getString(nameId);
-//                        }
-//                    }
-//
-//                    break;
-//            }
-//        }else{
-//            Log.w("Getting Data", "Warning: activity result not ok");
-//        }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         String DEBUG_TAG = "onActivityResult";
@@ -270,26 +247,14 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                         if (cursor != null) {
                             cursor.close();
                         }
-                        //Toast.makeText(activity, name + ": " + phone, Toast.LENGTH_LONG).show();
-                        if (! blacklist.containsKey(name)) {
+                        // make sure they're not adding 911 to the blacklist!!
+                        if (! blacklist.containsKey(name) && phone != "911") {
                             blacklist.put(name, phone);
 
                             saveHash(blacklist, context);
                             displayBlacklist.add(name);
                             Collections.sort(displayBlacklist);
                         }
-                        //blacklist.clear();
-                        //displayBlacklist.clear();
-
-//                        Enumeration<String> new_enumKey = blacklist.keys();
-//                        while (new_enumKey.hasMoreElements()) {
-//                            String key = new_enumKey.nextElement();
-//                            //Toast.makeText(context, name, Toast.LENGTH_LONG).show();
-//                            displayBlacklist.add(key);
-//                        }
-//                        ;
-
-
 
                     }
                     break;
@@ -315,15 +280,6 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
         }catch (Exception e){
             e.printStackTrace();
         }
-//        try {
-//            FileOutputStream saveFile = new FileOutputStream("current.dat");
-//            ObjectOutputStream out = new ObjectOutputStream(saveFile);
-//            out.writeObject(object);
-//            out.close();
-//            saveFile.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public static Object loadHash(Hashtable<String, String> toSave, Context context){
@@ -336,10 +292,6 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 
                 //Create new empty file
                 (file).createNewFile();
-
-                //Creates a fresh new hashTable
-                //emptyTable = new Hashtable<String, String>();
-                //emptyTable.put("TestName", "TestNum");
                 blacklistFragment.saveHash(toSave, context);
             }
 
@@ -348,30 +300,13 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
             ObjectInputStream hash = new ObjectInputStream(new FileInputStream(context.getFilesDir().toString() + "/contacts_hash.txt"));
             table = hash.readObject();
             hash.close();
-            
-            //table = hash;
-            //file.delete();
+
 
 
         }catch (Exception e){
             e.printStackTrace();
         }
         return table;
-//        Object result = null;
-//        try {
-//            FileInputStream saveFile = new FileInputStream("current.dat");
-//            ObjectInputStream in = new ObjectInputStream(saveFile);
-//            try{
-//                result = in.readObject();
-//            }catch (ClassNotFoundException e){
-//                e.printStackTrace();
-//            }
-//            in.close();
-//            saveFile.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
         }
     }
 

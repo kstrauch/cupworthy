@@ -56,4 +56,5 @@ public class Globals {
 
     public final static String[] EFFECTS_ARR = {effect_1,effect_2, effect_3, effect_4, effect_5 };
 
+    public static final double INTOX = 0.08;
 }
