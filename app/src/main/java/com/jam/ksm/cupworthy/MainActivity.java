@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,6 +59,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     private String blockedNumbers[];
     private Hashtable<String, String> blacklist = new Hashtable<String, String>();
 
+    private SharedPreferences mPrefs;
+    private String mKey;
+
     private Context context;
     private boolean call_flag;
 
@@ -68,6 +72,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         //set up blocked # list
         blockedNumbers = new String[] {"9148743753"};
+
+        // set up shared preferences
+        mKey = getString(R.string.preference_name);
+        mPrefs = getSharedPreferences(mKey, Context.MODE_PRIVATE);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -195,29 +203,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
    }
 
 
-
-
-/*    public void createDatabase(){
-
-        String line = "";
-        BufferedReader br = null;
-        InputStream is = null;
-        try {
-            is = getAssets().open("bac.csv");
-            br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            while ((line = br.readLine()) != null) {
-
-                bacDBHelper.insertEntry(line);
-            }
-            Toast.makeText(this, "database made", Toast.LENGTH_SHORT).show();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -355,8 +340,15 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 //wait for phone to go off-hook -- means that a call has begun
                 // set the call_flag so that we know our app initiated the call.
                 call_flag = true;
+
+                // get BAC from shared preferences
+                mKey = getString(R.string.preference_key_bac);
+
+                String bac = mPrefs.getString(mKey, "");
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash( blacklist,context);
-                if(blacklist.containsValue(number)){
+
+                // block call if and only if BAC is over Globals' intoxication level
+                if(blacklist.containsValue(number) && (bac != "" && Double.parseDouble(bac) >= Globals.INTOX)){
                     endBlockedCall();
                     Toast.makeText(getApplicationContext(), "ENDING BLOCKED CALL", Toast.LENGTH_SHORT).show();
                 }
@@ -404,16 +396,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
             number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-
             Log.i("OutgoingCallReceiver", number);
-
             String info = "Detect Calls sample application\nOutgoing number: " + number;
-
-            Toast.makeText(context, info, Toast.LENGTH_LONG).show();
-
-            Toast.makeText(context, "number dialed was " + number + "!", Toast.LENGTH_SHORT);
+            //Toast.makeText(context, info, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "number dialed was " + number + "!", Toast.LENGTH_SHORT);
 
         }
     }

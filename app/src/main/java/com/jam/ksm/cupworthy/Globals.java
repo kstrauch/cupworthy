@@ -14,7 +14,7 @@ public class Globals {
     public static final double WINE_CONTENT = 0.12;
     public static final double WINE_COOLER_CONTENT = 0.05;
 
-    public static final double HARD_ALC_CONTENT = 0.40;
+    //public static final double HARD_ALC_CONTENT = 0.40;
     public static final double VODKA_CONTENT = 0.40;
     public static final double GIN_CONTENT = 0.40;
     public static final double RUM_CONTENT = 0.40;
@@ -48,11 +48,13 @@ public class Globals {
     public static final int RESULT_OK = 0;
     public static final int RED_CUP_INTENT = 1;
 
-    public static final String effect_1 = "You should feel relaxed, slightly warm, and may experience some loss of judgment";
-    public static final String effect_2 = "Judgment is impaired, alertness is lowered, and inhibitions are fleeting";
-    public static final String effect_3 = "Loss of muscle coordination, judgment and reasoning are impaired";
-    public static final String effect_4 = "Slurred speech and poor coordination. NOT SAFE to drive.";
-    public static final String effect_5 = "Major loss of balance/muscle control. Vomiting may occur. U R CUT OFF";
+
+    // different effects for varying BAC levels
+    public static final String effect_1 = "You're feeling relaxed, warm, and lacking good judgment";
+    public static final String effect_2 = "Impaired judgment, lowered alertness and inhibitions";
+    public static final String effect_3 = "Judgment and reasoning are impaired";
+    public static final String effect_4 = "Slurred speech, poor coordination, not safe to drive.";
+    public static final String effect_5 = "Highly intoxicated. You're cut off!";
 
     public final static String[] EFFECTS_ARR = {effect_1,effect_2, effect_3, effect_4, effect_5 };
 

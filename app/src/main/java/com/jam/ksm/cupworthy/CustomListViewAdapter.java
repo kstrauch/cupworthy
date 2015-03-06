@@ -17,6 +17,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
+
 /**
  * Created by mj5545 on 2/26/15.
  */
@@ -76,13 +78,16 @@ public class CustomListViewAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View test) {
                 //do the deleting here!
                 mKey = context.getString(R.string.preference_key_bac);
-                String level = mPrefs.getString("", mKey);
-                if (level == "" || Double.parseDouble(level) < Globals.INTOX) {
+                String level = mPrefs.getString(mKey,"");
+                if (!(level != "" && Double.parseDouble(level) >= Globals.INTOX)) {
                     blacklist.remove(contacts.get(i));
                     saveHash(blacklist);
                     contacts.remove(i);
 
                     notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(context, "Can't update blacklist when intoxicated ;)", Toast.LENGTH_SHORT).show();
                 }
             }
         });

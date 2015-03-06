@@ -254,6 +254,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                             saveHash(blacklist, context);
                             displayBlacklist.add(name);
                             Collections.sort(displayBlacklist);
+                            adapter.notifyDataSetChanged();
                         }
 
                     }

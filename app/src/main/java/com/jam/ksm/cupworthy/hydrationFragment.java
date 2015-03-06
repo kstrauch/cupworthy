@@ -16,12 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link hydrationFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link hydrationFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * HydrationFragment informs the user, based on alcohol consumption, how many glasses of water
+ * they need to drink in order to re-hydrate.
  */
 public class hydrationFragment extends Fragment implements View.OnClickListener /*implements View.OnClickListener*/ {
     // TODO: Rename parameter arguments, choose names that match
@@ -129,10 +125,11 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
         Log.d(TAG, temp);
         if ( temp != "0.0" || temp != "") {
             Log.d(TAG, "entered if statement");
-            double consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
-            int blah = (int) Math.ceil(consumption /= .6);
+            //double consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
+           // int blah = (int) Math.ceil(consumption /= .6);
             //convert to string
-            String numberOfDrinks = Integer.toString(blah);
+            //String numberOfDrinks = Integer.toString(blah);
+            String numberOfDrinks = "4";
             Log.d(TAG, "Number of drinks is: " + numberOfDrinks);
             return numberOfDrinks;
         }
