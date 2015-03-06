@@ -2,17 +2,23 @@ package com.jam.ksm.cupworthy;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -21,7 +27,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.tuenti.smsradar.SmsListener;
+import com.tuenti.smsradar.SmsRadar;
+
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.Hashtable;
 import java.util.Locale;
 
@@ -106,9 +116,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                             .setTabListener(this));
         }
 
-        /**
-         * NOTIFICATIONS ON TEXT...
-         * /
+
+
         final NotificationCompat.Builder warning =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.smirnoff_ice)
@@ -130,7 +139,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         SmsRadar.initializeSmsRadarService(context, new SmsListener() {
 
-//            blacklist = (Hashtable<String, String>) loadHash(blacklist);
+            //            blacklist = (Hashtable<String, String>) loadHash(blacklist);
             public void onSmsSent(com.tuenti.smsradar.Sms sms) {
                 Toast.makeText(context, "sms sent", Toast.LENGTH_LONG).show();
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash(blacklist, context);
@@ -138,8 +147,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 String phone_number = sms.getAddress();
                 Toast.makeText(context, "phone_number = " + phone_number, Toast.LENGTH_LONG).show();
 
-                if (blacklist.containsValue(number)) {
+                if (blacklist.containsKey(number)) {
                     notificationManager.notify(1, warning.build());
+                    displayAlertDialog(blacklist.get(number));
                 }
             }
 
@@ -151,7 +161,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
             }
 
-        });*/
+        });
 
     }
 
@@ -356,7 +366,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 // set the call_flag so that we know our app initiated the call.
                 call_flag = true;
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash( blacklist,context);
-                if(blacklist.containsValue(number)){
+                if(blacklist.containsKey(number)){
                     endBlockedCall();
                     Toast.makeText(getApplicationContext(), "ENDING BLOCKED CALL", Toast.LENGTH_SHORT).show();
                 }
@@ -417,7 +427,27 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         }
     }
+
+    public boolean displayAlertDialog(String name) {
+
+        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        ad.setTitle("Text Alert!");
+        ad.setMessage(name + " is on your blacklist! You shouldn't be texting them!");
+
+        ad.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        //dont need to do anything
+                    }
+                }
+        );
+
+        ad.show();
+
+        return true;
     }
+}
 
 
 

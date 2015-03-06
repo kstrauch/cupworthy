@@ -248,8 +248,8 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                             cursor.close();
                         }
                         // make sure they're not adding 911 to the blacklist!!
-                        if (! blacklist.containsKey(name) && phone != "911") {
-                            blacklist.put(name, phone);
+                        if (! blacklist.containsValue(name) && phone != "911") {
+                            blacklist.put(phone, name);
 
                             saveHash(blacklist, context);
                             displayBlacklist.add(name);
