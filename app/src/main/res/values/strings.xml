@@ -19,13 +19,8 @@
 
     <!-- alcohol types for spinner -->
     <string-array name="ui_alcohol_spinner_entries">
-        <item>Vodka</item>
-        <item>Gin</item>
-        <item>Rum</item>
-        <item>Beer</item>
-        <item>Wine</item>
-        <item>Champagne</item>
-        <item>Wine Cooler</item>
+        <item>Hard Alcohol</item>
+        <item>Soft Alcohol (Beer)</item>
     </string-array>
 
     <!-- preference strings -->

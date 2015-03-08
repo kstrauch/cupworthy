@@ -136,7 +136,7 @@ public class prefActivity extends Activity {
         SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
 
         SharedPreferences.Editor mEditor = mPrefs.edit();
-        mEditor.clear();
+        //mEditor.clear();
 
 
         // Save name information

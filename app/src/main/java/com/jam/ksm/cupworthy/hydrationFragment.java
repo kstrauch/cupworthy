@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * HydrationFragment informs the user, based on alcohol consumption, how many glasses of water
@@ -88,8 +89,14 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
 
         String setNumber = getNumberOfDrinks();
 
-        TextView drinks = (TextView) view.findViewById(R.id.howManyGlassesNeeded);
-        drinks.setText("You need to drink " + setNumber + " glasses of water to rehydrate");
+        //set up the layout
+        TextView drinks;
+        if (Integer.valueOf(setNumber) == 0){
+            drinks = (TextView) view.findViewById(R.id.hydrationText);
+            drinks.setText("You are properly hydrated!");
+        }
+        drinks = (TextView) view.findViewById(R.id.howManyGlassesNeeded);
+        drinks.setText("You need to drink " + setNumber + " glasses of water to stay hydrated");
 
         Log.d(TAG, "setNumber = " + setNumber);
 
@@ -120,18 +127,11 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
     String getNumberOfDrinks(){
         //use sharedPrefs to get the number of drinks you need to drink
         mKey = "drink_number";
-        Log.d(TAG, "just before getting String from Prefs");
+
         String temp = mPrefs.getString(mKey, "");
-        Log.d(TAG, temp);
-        if ( temp != "0.0" || temp != "") {
-            Log.d(TAG, "entered if statement");
-            //double consumption = Double.parseDouble(mPrefs.getString(mKey, ""));
-           // int blah = (int) Math.ceil(consumption /= .6);
-            //convert to string
-            //String numberOfDrinks = Integer.toString(blah);
-            String numberOfDrinks = "4";
-            Log.d(TAG, "Number of drinks is: " + numberOfDrinks);
-            return numberOfDrinks;
+        //if it isn't 0 or empty, set that as the number of drinks, otherwise set it to 0
+        if ( temp != "0" && temp != "") {
+            return temp;
         }
         else {
             return "0";
@@ -162,6 +162,28 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
         SharedPreferences.Editor mEditor = mPrefs.edit();
         String mKey;
 
+        mKey = "drink_number";
+        int drink_num;
+        if (mPrefs.getString(mKey, "") != "") {
+            drink_num = Integer.parseInt(mPrefs.getString(mKey, ""));
+        } else
+            drink_num = 0;
+
+        if (drink_num >= 1){
+            drink_num -= 1;
+        }
+        else{
+            drink_num = 0;
+        }
+
+        Toast.makeText(context, "drink number = " + Double.toString(drink_num), Toast.LENGTH_LONG).show();
+
+        mEditor.putString(mKey, "" + drink_num);
+        mEditor.commit();
+
+        String temp = mPrefs.getString(mKey, "");
+        Toast.makeText(context, "just committed drink number as: " + temp, Toast.LENGTH_LONG).show();
+
         TextView textView = (TextView) getView().findViewById(R.id.howManyGlassesNeeded);
         CharSequence message = textView.getText();
         int numberOfDrinks = Integer.parseInt(Character.toString(message.charAt(18)));
@@ -169,7 +191,7 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
             numberOfDrinks --;
         }
         String newNumber = Integer.toString(numberOfDrinks);
-        String text = "You need to drink " + newNumber + " glasses of water to rehydrate.";
+        String text = "You need to drink " + newNumber + " glasses of water to stay hydrated.";
         textView.setText(text);
 
         ImageView image;
@@ -196,20 +218,6 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
             default:
                 break;
         }
-
-        mKey = "drink_number";
-        double drink_num;
-        if (mPrefs.getString(mKey, "") != "") {
-            drink_num = Double.parseDouble(mPrefs.getString(mKey, ""));
-        } else
-            drink_num = 0.0;
-
-        if (drink_num != 0.0){
-            drink_num -= 1.0;
-        }
-
-        mEditor.putString(mKey, "" + drink_num);
-        mEditor.commit();
     }
 
     @Override

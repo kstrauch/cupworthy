@@ -259,8 +259,9 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         } else {
             drink_num = 0.0;
         }
-        drink_num += oz_alc;
-        mEditor.putString(mKey, "" + drink_num);
+        drink_num += Math.ceil(oz_alc/.6);
+        int temp = (int) drink_num;
+        mEditor.putString(mKey, "" + temp);
 
         mEditor.commit();
 

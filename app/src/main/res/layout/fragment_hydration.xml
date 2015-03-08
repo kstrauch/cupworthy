@@ -20,11 +20,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="You need to drink 3 glasses of water to rehydrate"
+            android:text="You need to drink 3 glasses of water to stay hydrated."
             android:id="@+id/howManyGlassesNeeded"
             android:layout_gravity="center" />
         </LinearLayout>
 
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:id="@+id/drinkAGlass"
+        android:text="+1 Glass"/>
+
+    <ImageView
+        android:layout_width="74dp"
+        android:layout_height="71dp"
+        android:id="@+id/plus_sign"
+        android:visibility="invisible"
+        android:src="@drawable/plus_sign"
+        android:layout_gravity="center_vertical|right" />
 
     <LinearLayout
         android:layout_margin="10dp"
@@ -32,7 +48,8 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:id="@+id/linear_layout">
+        android:id="@+id/linear_layout"
+        android:layout_gravity="center">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,27 +68,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/glass3"
-            android:layout_gravity="bottom"
             android:visibility="invisible"
             android:src="@drawable/glass_water" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/plus_sign"
-            android:layout_gravity="bottom"
-            android:visibility="invisible"
-            android:src="@drawable/plus_sign" />
 
     </LinearLayout>
-
-    <Button
-        android:layout_marginTop="100dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:id="@+id/drinkAGlass"
-        android:text="+1 Glass"/>
-
 
 
 </FrameLayout>
