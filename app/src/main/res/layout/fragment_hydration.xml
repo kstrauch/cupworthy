@@ -40,7 +40,8 @@
         android:id="@+id/plus_sign"
         android:visibility="invisible"
         android:src="@drawable/plus_sign"
-        android:layout_gravity="center_vertical|right" />
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="25dp" />
 
     <LinearLayout
         android:layout_margin="10dp"
@@ -56,20 +57,28 @@
             android:id="@+id/glass1"
             android:layout_gravity="bottom"
             android:visibility="invisible"
-            android:src="@drawable/glass_water" />
+            android:src="@drawable/glass_water"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/glass2"
-            android:layout_gravity="bottom"
             android:visibility="invisible"
-            android:src="@drawable/glass_water" />
+            android:src="@drawable/glass_water"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/glass3"
+            android:layout_gravity="bottom"
             android:visibility="invisible"
-            android:src="@drawable/glass_water" />
+            android:src="@drawable/glass_water"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 

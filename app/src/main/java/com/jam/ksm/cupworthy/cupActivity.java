@@ -49,8 +49,8 @@ public class cupActivity extends Activity implements View.OnClickListener {
         blueCup.setImageResource(R.drawable.cup_progress);
 
         blueCup.setImageLevel(vert_progress);
-        Toast.makeText(this, "progress is..." + vert_progress, Toast.LENGTH_SHORT).show();
-        Toast.makeText(context, "blue cup image level is..." + blueCup.getDrawable().getLevel(), Toast.LENGTH_SHORT).show();
+        /*Toast.makeText(this, "progress is..." + vert_progress, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "blue cup image level is..." + blueCup.getDrawable().getLevel(), Toast.LENGTH_SHORT).show();*/
 
         verticalSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
