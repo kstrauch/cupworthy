@@ -25,6 +25,7 @@ public class cupActivity extends Activity implements View.OnClickListener {
     Context context;
     private SharedPreferences mPrefs;
     private String mKey;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class cupActivity extends Activity implements View.OnClickListener {
 
         final ImageView blueCup =(ImageView) findViewById(R.id.blueCup);
         final SeekBar verticalSlider=(SeekBar) findViewById(R.id.verticalSlider);
+        spinner = (Spinner) findViewById(R.id.alcoholSpinner);
 
         // set up onclicklistener
         context = this;
@@ -114,8 +116,6 @@ public class cupActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "button pressed..." + vert_progress, Toast.LENGTH_SHORT).show();
                 // fix the add drink to calculate volume based on height filled...
 
-
-                Spinner spinner = (Spinner)v.findViewById(R.id.alcoholSpinner);
                 String alc_type = spinner.getSelectedItem().toString();
 
                 if(alc_type.equals("Hard Alcohol")) {
