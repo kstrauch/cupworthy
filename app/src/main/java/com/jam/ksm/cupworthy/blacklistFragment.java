@@ -129,7 +129,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 
         //if (blacklist.isEmpty()){}
         displayBlacklist.clear();
-        Enumeration<String> enumKey = (Enumeration) blacklist.values();
+        Enumeration<String> enumKey = blacklist.elements();
         while (enumKey.hasMoreElements()) {
             String name = enumKey.nextElement();
             //Toast.makeText(context, name, Toast.LENGTH_LONG).show();

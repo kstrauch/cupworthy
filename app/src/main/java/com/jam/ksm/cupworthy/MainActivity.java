@@ -28,9 +28,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.tuenti.smsradar.SmsListener;
-import com.tuenti.smsradar.SmsRadar;
-
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.Hashtable;
@@ -123,53 +120,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-
-
-
-        final NotificationCompat.Builder warning =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.smirnoff_ice)
-                        .setContentTitle("My Notification")
-                        .setContentText("testingtesting");
-
-
-        //taken from android developer site
-        Intent notification = new Intent(this, MainActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(notification);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0, PendingIntent.FLAG_UPDATE_CURRENT);
-        warning.setContentIntent(resultPendingIntent);
-        final NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        SmsRadar.initializeSmsRadarService(context, new SmsListener() {
-
-            //            blacklist = (Hashtable<String, String>) loadHash(blacklist);
-            public void onSmsSent(com.tuenti.smsradar.Sms sms) {
-                Toast.makeText(context, "sms sent", Toast.LENGTH_LONG).show();
-                blacklist = (Hashtable<String, String>) blacklistFragment.loadHash(blacklist, context);
-
-                String phone_number = sms.getAddress();
-                Toast.makeText(context, "phone_number = " + phone_number, Toast.LENGTH_LONG).show();
-
-                if (blacklist.containsKey(number)) {
-                    notificationManager.notify(1, warning.build());
-                    displayAlertDialog(blacklist.get(number));
-                }
-            }
-
-            @Override
-            public void onSmsReceived(com.tuenti.smsradar.Sms sms) {
-                //don't need to do anything here
-                Toast.makeText(context, "sms received", Toast.LENGTH_LONG).show();
-
-
-            }
-
-        });
 
     }
 

@@ -85,8 +85,10 @@ public class CustomListViewAdapter extends BaseAdapter implements ListAdapter {
                     Enumeration e = blacklist.keys();
 
                     while (e.hasMoreElements()){
-                        blacklist.get(e).equals(contacts.get(i));
-                        blacklist.remove(e);
+                       String phone = (String) e.nextElement();
+                       if ( blacklist.get(phone).equals(contacts.get(i)) ) {
+                           blacklist.remove(phone);
+                       }
                     }
                     blacklistFragment.saveHash(blacklist, context);
                     contacts.remove(i);
