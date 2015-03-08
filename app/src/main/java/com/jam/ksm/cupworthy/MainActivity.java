@@ -364,26 +364,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         }
     }
-
-    public boolean displayAlertDialog(String name) {
-
-        AlertDialog.Builder ad = new AlertDialog.Builder(context);
-        ad.setTitle("Text Alert!");
-        ad.setMessage(name + " is on your blacklist! You shouldn't be texting them!");
-
-        ad.setPositiveButton(
-                "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        //dont need to do anything
-                    }
-                }
-        );
-
-        ad.show();
-
-        return true;
-    }
 }
 
 
