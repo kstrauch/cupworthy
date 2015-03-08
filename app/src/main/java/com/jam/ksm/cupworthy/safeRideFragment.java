@@ -118,7 +118,7 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
 
         // if the user is not safe to drive, enable the imagebuttons -- so that when clicked they
         // open Uber or call a local taxi, respectively...
-        if (Double.parseDouble(bac) > 0.08) {
+        if (Double.parseDouble(bac) >= 0.08) {
             safeText.setText("Your bac is " + bac + ". It is not safe to drive. Hire an Uber or Taxi!");
             uberButton.setOnClickListener(this);
             taxiButton.setOnClickListener(this);

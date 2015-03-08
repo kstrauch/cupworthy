@@ -177,13 +177,13 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
         // get the BAC from the shared prefs
         mKey = getString(R.string.preference_key_bac);
         String bac = mPrefs.getString(mKey, "");
-        if(bac == "" || ( bac!= "" && Double.parseDouble(bac) <= Globals.INTOX)){
-           // double bac_d = Double.parseDouble(bac);
+        if(bac.equals("") || ( bac!= "" && Double.parseDouble(bac) < Globals.INTOX)){
+           // double bac_d = Double.parseDouble(bac)
             contactPickerIntent = new Intent(Intent.ACTION_PICK,Contacts.CONTENT_URI);
             startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
         }
         else{
-            Toast.makeText(context, "You cannot update your blacklist when you are intoxicated!", Toast.LENGTH_LONG);
+            Toast.makeText(context, "You cannot update your blacklist when you are intoxicated!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -247,20 +247,23 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                         if (cursor != null) {
                             cursor.close();
                         }
+
                         // make sure they're not adding 911 to the blacklist!!
-                        if (! blacklist.containsValue(name) && phone != "911") {
+                        if(phone.equals("911")){
+                            Toast.makeText(context, "Cannot add 911 to your blacklist!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        else if(blacklist.containsValue(name)){
+                            Toast.makeText(context, name + " is already in your blacklist!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        else if (! blacklist.containsValue(name) && phone != "911") {
                             blacklist.put(phone, name);
 
                             saveHash(blacklist, context);
                             displayBlacklist.add(name);
                             Collections.sort(displayBlacklist);
                             adapter.notifyDataSetChanged();
-                        }
-                        else if(phone.equals("911")){
-                            Toast.makeText(context, "Cannot add 911 to your blacklist!", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(blacklist.containsValue(name)){
-                            Toast.makeText(context, name + " is already in your blacklist!", Toast.LENGTH_SHORT).show();
                         }
 
                     }

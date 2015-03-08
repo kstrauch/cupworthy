@@ -176,13 +176,10 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
             drink_num = 0;
         }
 
-        Toast.makeText(context, "drink number = " + Double.toString(drink_num), Toast.LENGTH_LONG).show();
-
         mEditor.putString(mKey, "" + drink_num);
         mEditor.commit();
 
         String temp = mPrefs.getString(mKey, "");
-        Toast.makeText(context, "just committed drink number as: " + temp, Toast.LENGTH_LONG).show();
 
         TextView textView = (TextView) getView().findViewById(R.id.howManyGlassesNeeded);
         CharSequence message = textView.getText();
