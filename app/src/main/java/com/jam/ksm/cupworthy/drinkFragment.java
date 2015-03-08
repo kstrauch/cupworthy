@@ -266,8 +266,8 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         mEditor.commit();
 
 
-        Toast.makeText(context.getApplicationContext(), "Saving drink! type = " + type + "amount = " + amount + " total oz alc = " + oz_alc,
-                Toast.LENGTH_SHORT).show();
+       /* Toast.makeText(context.getApplicationContext(), "Saving drink! type = " + type + "amount = " + amount + " total oz alc = " + oz_alc,
+                Toast.LENGTH_SHORT).show();*/
         // should also make note in database of what was consumed, oz. alcohol, and the timestamp so that we can keep track of days
     }
 
