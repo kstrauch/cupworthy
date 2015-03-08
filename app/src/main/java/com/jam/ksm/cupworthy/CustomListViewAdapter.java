@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import android.content.Context;
@@ -80,8 +81,14 @@ public class CustomListViewAdapter extends BaseAdapter implements ListAdapter {
                 mKey = context.getString(R.string.preference_key_bac);
                 String level = mPrefs.getString(mKey,"");
                 if (!(level != "" && Double.parseDouble(level) >= Globals.INTOX)) {
-                    blacklist.remove(contacts.get(i));
-                    saveHash(blacklist);
+
+                    Enumeration e = blacklist.keys();
+
+                    while (e.hasMoreElements()){
+                        blacklist.get(e).equals(contacts.get(i));
+                        blacklist.remove(e);
+                    }
+                    blacklistFragment.saveHash(blacklist, context);
                     contacts.remove(i);
 
                     notifyDataSetChanged();
