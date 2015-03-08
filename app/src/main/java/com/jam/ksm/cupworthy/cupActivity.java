@@ -113,7 +113,7 @@ public class cupActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.submitButton:
-                Toast.makeText(this, "button pressed..." + vert_progress, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "button pressed..." + vert_progress, Toast.LENGTH_SHORT).show();
                 // fix the add drink to calculate volume based on height filled...
 
                 String alc_type = spinner.getSelectedItem().toString();
