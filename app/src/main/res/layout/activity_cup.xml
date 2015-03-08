@@ -27,13 +27,29 @@
     <com.jam.ksm.cupworthy.VerticalSeekBar
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:max="10"
+        android:max="15"
         android:alpha="0.0"
         android:id="@+id/verticalSlider"
         android:gravity="center_horizontal|center_vertical"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alcohol Type"
+        android:layout_above="@+id/alcoholSpinner"
+        android:layout_alignLeft="@+id/submitButton"
+        android:layout_alignStart="@+id/submitButton"
+        android:id="@+id/textView" />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alcoholSpinner"
+        android:entries="@array/ui_alcohol_spinner_entries"
+        android:layout_alignBottom="@+id/blueCup"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

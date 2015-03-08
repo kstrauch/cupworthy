@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jam.ksm.cupworthy.drinkFragment;
@@ -113,7 +114,16 @@ public class cupActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "button pressed..." + vert_progress, Toast.LENGTH_SHORT).show();
                 // fix the add drink to calculate volume based on height filled...
 
-                drinkFragment.addDrink(context, mPrefs,Globals.TYPE_VODKA, estimateVolume());
+
+                Spinner spinner = (Spinner)v.findViewById(R.id.alcoholSpinner);
+                String alc_type = spinner.getSelectedItem().toString();
+
+                if(alc_type.equals("Hard Alcohol")) {
+                    drinkFragment.addDrink(context, mPrefs, Globals.TYPE_VODKA, estimateVolume());
+                }
+                else{
+                    drinkFragment.addDrink(context, mPrefs, Globals.TYPE_BEER, estimateVolume());
+                }
 
                 Intent intent=new Intent();
                 setResult(Globals.RESULT_OK, intent);
@@ -126,10 +136,11 @@ public class cupActivity extends Activity implements View.OnClickListener {
         finish();
     }
 
-
-    // come up with a more rigorous way of estimating volume
+    /*
+     * in next iteration, come up with a more comprehensive method for volume estimation
+     */
     public double estimateVolume(){
-       return 1.0 * vert_progress;
+       return 2.0/3 * vert_progress;
 
     }
 }
