@@ -1,17 +1,8 @@
 package com.jam.ksm.cupworthy;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Locale;
-
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -19,35 +10,31 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.database.SQLException;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.net.Uri;
-import android.content.Intent;
 
 import com.tuenti.smsradar.SmsListener;
 import com.tuenti.smsradar.SmsRadar;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.lang.reflect.Method;
+import java.text.DecimalFormat;
+import java.util.Hashtable;
+import java.util.Locale;
 
 
 public class MainActivity extends Activity implements ActionBar.TabListener, hydrationFragment.OnFragmentInteractionListener, drinkFragment.OnFragmentInteractionListener, safeRideFragment.OnFragmentInteractionListener, blacklistFragment.OnFragmentInteractionListener {
@@ -82,6 +69,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
     private String blockedNumbers[];
     private Hashtable<String, String> blacklist = new Hashtable<String, String>();
 
+    private SharedPreferences mPrefs;
+    private String mKey;
+
     private Context context;
     private boolean call_flag;
 
@@ -92,6 +82,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         //set up blocked # list
         blockedNumbers = new String[] {"9148743753"};
+
+        // set up shared preferences
+        mKey = getString(R.string.preference_name);
+        mPrefs = getSharedPreferences(mKey, Context.MODE_PRIVATE);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -130,6 +124,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                             .setTabListener(this));
         }
 
+
+
         final NotificationCompat.Builder warning =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.smirnoff_ice)
@@ -149,13 +145,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
         final NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(1, warning.build());
-
         SmsRadar.initializeSmsRadarService(context, new SmsListener() {
 
-
-//            blacklist = (Hashtable<String, String>) loadHash(blacklist);
-
+            //            blacklist = (Hashtable<String, String>) loadHash(blacklist);
             public void onSmsSent(com.tuenti.smsradar.Sms sms) {
                 Toast.makeText(context, "sms sent", Toast.LENGTH_LONG).show();
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash(blacklist, context);
@@ -163,11 +155,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 String phone_number = sms.getAddress();
                 Toast.makeText(context, "phone_number = " + phone_number, Toast.LENGTH_LONG).show();
 
-                if (blacklist.containsValue(number)) {
+                if (blacklist.containsKey(number)) {
                     notificationManager.notify(1, warning.build());
+                    displayAlertDialog(blacklist.get(number));
                 }
-
-
             }
 
             @Override
@@ -194,7 +185,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
             registerReceiver(receiver, filter);
             isReceiverRegistered = true;
         }
-
         // set up phone state listener
         EndCallListener callListener = new EndCallListener(this);
         TelephonyManager mTM = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -223,29 +213,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
    }
 
 
-
-
-/*    public void createDatabase(){
-
-        String line = "";
-        BufferedReader br = null;
-        InputStream is = null;
-        try {
-            is = getAssets().open("bac.csv");
-            br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            while ((line = br.readLine()) != null) {
-
-                bacDBHelper.insertEntry(line);
-            }
-            Toast.makeText(this, "database made", Toast.LENGTH_SHORT).show();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -384,8 +351,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
                 // set the call_flag so that we know our app initiated the call.
                 call_flag = true;
 
+                // get BAC from shared preferences
+                mKey = getString(R.string.preference_key_bac);
+
+                String bac = mPrefs.getString(mKey, "");
                 blacklist = (Hashtable<String, String>) blacklistFragment.loadHash( blacklist,context);
-                if(blacklist.containsValue(number)){
+
+                // block call if and only if BAC is over Globals' intoxication level
+                if(blacklist.containsKey(number) && (bac != "" && Double.parseDouble(bac) >= Globals.INTOX)){
                     endBlockedCall();
                     Toast.makeText(getApplicationContext(), "ENDING BLOCKED CALL", Toast.LENGTH_SHORT).show();
                 }
@@ -433,25 +406,35 @@ public class MainActivity extends Activity implements ActionBar.TabListener, hyd
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            //Bundle bundle = intent.getExtras();
-
-            /*if (null == bundle)
-                return;
-            */
             number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-
             Log.i("OutgoingCallReceiver", number);
-            //Log.i("OutgoingCallReceiver", bundle.toString());
-
             String info = "Detect Calls sample application\nOutgoing number: " + number;
-
-            Toast.makeText(context, info, Toast.LENGTH_LONG).show();
-
-            Toast.makeText(context, "number dialed was " + number + "!", Toast.LENGTH_SHORT);
+            //Toast.makeText(context, info, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "number dialed was " + number + "!", Toast.LENGTH_SHORT);
 
         }
     }
+
+    public boolean displayAlertDialog(String name) {
+
+        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        ad.setTitle("Text Alert!");
+        ad.setMessage(name + " is on your blacklist! You shouldn't be texting them!");
+
+        ad.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        //dont need to do anything
+                    }
+                }
+        );
+
+        ad.show();
+
+        return true;
     }
+}
 
 
 

@@ -1,6 +1,7 @@
 package com.jam.ksm.cupworthy;
 
 /**
+ * DB helper
  * Created by kimberlystrauch on 2/19/15.
  */
 

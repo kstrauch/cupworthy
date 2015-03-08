@@ -26,12 +26,10 @@ import static java.lang.Class.forName;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link safeRideFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link safeRideFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * SafeRideFragment
+ *
+ * This fragment enables two image buttons (UBER and a Taxi) when the user's BAC is greater than 0.08
+ * Clicking on the UBER button opens UBER, and the taxi button calls the saved Taxi service.
  */
 public class safeRideFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -195,65 +193,6 @@ public class safeRideFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-
-
-    /**
-     * phone EndCallListener to return to CupWorthy after the Taxi call was made...
-     * code inspiration from StackOverflow:
-     * http://stackoverflow.com/questions/1556987/how-to-make-a-phone-call-in-android-and-come-back-to-my-activity-when-the-call-i
-     *
-    public class EndCallListener extends PhoneStateListener {
-        Context context;
-
-        public EndCallListener(Context context) {
-            super();
-            this.context = context;
-        }
-
-        @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
-            if (TelephonyManager.CALL_STATE_RINGING == state) {
-            }
-            if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
-                //wait for phone to go off-hook -- means that a call has begun
-                // set the call_flag so that we know our app initiated the call.
-                call_flag = true;
-            }
-            if (TelephonyManager.CALL_STATE_IDLE == state) {
-                //when this state occurs, and call_flag is set, restart Cupworthy app
-                if (call_flag) {
-                    call_flag = false;
-                    Intent i = context.getPackageManager().getLaunchIntentForPackage(
-                            context.getPackageName());
-
-                    // flag activity single top
-                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                    //Uncomment the following if you want to restart the application instead of bring to front.
-                    //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(i);
-                }
-            }
-        }
-
-        private void endCallIfBlocked(String callingNumber) {
-            try {
-                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-                Class<?> c = Class.forName(tm.getClass().getName());
-                Method m = c.getDeclaredMethod("getITelephony");
-                m.setAccessible(true);
-                Object telephonyService = m.invoke(tm);
-                Class<?> telephonyServiceClass = Class.forName(telephonyService.getClass().getName());
-                Method endCallMethod = telephonyServiceClass.getDeclaredMethod("endCall");
-                endCallMethod.invoke(telephonyService);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-*/
 
     /**
      * This interface must be implemented by activities that contain this

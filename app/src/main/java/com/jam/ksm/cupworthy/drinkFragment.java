@@ -28,12 +28,10 @@ import org.w3c.dom.Text;
 import java.text.DecimalFormat;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link drinkFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link drinkFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * DrinkFragment handles the core functionality of the app
+ * Here the user clicks on alcohol shortcuts to indicate they've drunk them -- and it keeps a running tally
+ * in real-time on the user's BAC.
+ *
  */
 public class drinkFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -60,8 +58,6 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
     private double TIME_CONST = 0.015;
     private double F_CONST = 0.66;
     private double M_CONST = 0.73;
-
-    public int MILLIS_PER_DAY = 1000 * 3600 * 24;
 
     private OnFragmentInteractionListener mListener;
 
@@ -105,8 +101,6 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_drink, container, false);
 
         // set up all the buttons and listeners
-        //enterButton = (Button) view.findViewById(R.id.enter);
-        //enterButton.setOnClickListener(this);
         beerButton = (ImageButton) view.findViewById(R.id.imageButtonBeer);
         beerButton.setOnClickListener(this);
         shotButton = (ImageButton) view.findViewById(R.id.imageButtonShot);
@@ -132,11 +126,6 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         mKey = getString(R.string.preference_key_weight);
         String weight = mPrefs.getString(mKey, "");
         //Toast.makeText(getActivity(), "weight = " + weight, Toast.LENGTH_SHORT).show();
-
-        // height
-        mKey = getString(R.string.preference_key_height);
-        String height = mPrefs.getString(mKey, "");
-        // Toast.makeText(getActivity(), "height = " + height, Toast.LENGTH_SHORT).show();
 
         // age
         mKey = getString(R.string.preference_key_age);
@@ -188,84 +177,46 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         double bac = calculateBAC();
-        //confirmation = false;
-        //confirmation = displayAlertDialog();
             switch (v.getId()) {
                 // when refresh button is clicked, disable the button and call
-                // manageMyIDinBackground() on the context
-                // this will refresh the swipe/balance information
-                // case R.id.enter:
-                //enterButton.setEnabled(false);
-                //    Toast.makeText(getActivity(), "enter pressed", Toast.LENGTH_SHORT).show();
-                //    break;
                 case R.id.imageButtonBeer:
                     displayAlertDialog(Globals.BEER_AMT, Globals.TYPE_LIGHT_BEER, "Keystone Light");
-                    /*Toast.makeText(getActivity(), "beer pressed", Toast.LENGTH_SHORT).show();
-                    //addDrink(getActivity(), mPrefs,Globals.TYPE_BEER, Globals.BEER_AMT);
-                    //bac = calculateBAC();
-                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();*/
-
                     break;
+
                 case R.id.imageButtonIce:
                     displayAlertDialog(Globals.COOLER_AMT, Globals.TYPE_WINE_COOLER, "Smirnoff Ice");
-                    //Toast.makeText(getActivity(), "ice pressed", Toast.LENGTH_SHORT).show();
-                    //addDrink(getActivity(), mPrefs,Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
-                    //bac = calculateBAC();
-                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
-
                     break;
+
                 case R.id.imageButtonShot:
                     displayAlertDialog(Globals.HARD_AMT, Globals.TYPE_VODKA, "shot");
-                    //Toast.makeText(getActivity(), "shot pressed", Toast.LENGTH_SHORT).show();
-                    //addDrink(getActivity(), mPrefs,Globals.TYPE_VODKA, Globals.HARD_AMT);
-                    //bac = calculateBAC();
-                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
-
                     break;
+
                 case R.id.imageButtonWine:
                     displayAlertDialog(Globals.WINE_AMT, Globals.TYPE_WINE, "wine");
-                    /*Toast.makeText(getActivity(), "wine pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(getActivity(), mPrefs, Globals.TYPE_WINE, Globals.WINE_AMT);
-                    bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
-                    */
                     break;
+
                 case R.id.imageButtonChampagne:
                     displayAlertDialog(Globals.WINE_AMT, Globals.TYPE_WINE, "champagne");
-                    /*Toast.makeText(getActivity(), "champagne pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(getActivity(), mPrefs,Globals.TYPE_WINE, Globals.WINE_AMT);
-                    bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();*/
                     break;
+
                 case R.id.imageButtonMikes:
                     displayAlertDialog(Globals.COOLER_AMT, Globals.TYPE_WINE_COOLER, "Mike's Hard");
-                    /*
-                    Toast.makeText(getActivity(), "mikes pressed", Toast.LENGTH_SHORT).show();
-                    addDrink(getActivity(), mPrefs,Globals.TYPE_WINE_COOLER, Globals.COOLER_AMT);
-                    bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();*/
                     break;
+
                 case R.id.imageButtonSolo:
-                    //displayAlertDialog(Globals.RED, Globals.TYPE_WINE_COOLER);
-                    Toast.makeText(getActivity(), "red cup pressed", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "red cup pressed", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), cupActivity.class);
                     startActivityForResult(intent, Globals.RED_CUP_INTENT);
                     bac = calculateBAC();
-                    Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
                     DecimalFormat df = new DecimalFormat("0.00");
                     setText("Your BAC is: " + df.format(bac), R.id.bacText);
                     setText(getBACInfo(bac), R.id.bacDetails);
-
                     break;
+
                 default:
                     break;
             }
-
-        /*DecimalFormat df = new DecimalFormat("0.00");
-        // df.format(0.912385);
-
-        setText("Your BAC is: " + df.format(bac), R.id.bacText);
-        setText(getBACInfo(bac), R.id.bacDetails);*/
     }
 
 
@@ -404,6 +355,9 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         textView.setText(text);
     }
 
+    /*
+     * return the appropriate health effects at each given BAC
+     */
     public String getBACInfo(double bac) {
         String text = "";
         if (bac == 0.0){
@@ -423,6 +377,9 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         return text;
     }
 
+    /*
+     * confirm that the user actually wants to add this drink
+     */
     public boolean displayAlertDialog(double amount, int type, String name) {
         final int alc_type = type;
         final double alc_amount = amount;
@@ -469,6 +426,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         return confirmation;
     }
 
+    // gets called when CupActivity returns
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
             // Make sure the request was successful
@@ -483,8 +441,5 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
             }
         }
-
-
-
 
 }

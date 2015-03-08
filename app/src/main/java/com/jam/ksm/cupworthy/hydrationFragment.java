@@ -17,12 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link hydrationFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link hydrationFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * HydrationFragment informs the user, based on alcohol consumption, how many glasses of water
+ * they need to drink in order to re-hydrate.
  */
 public class hydrationFragment extends Fragment implements View.OnClickListener /*implements View.OnClickListener*/ {
     // TODO: Rename parameter arguments, choose names that match

@@ -28,33 +28,17 @@ import android.widget.Toast;
 
 
 /**
- * Profile Activity for MyRuns. Here the user enters all of their workout
- * profile information.
+ * Profile Activity for CupWorthy. Here the user enters all of their workout
+ * profile information -- weight, sex, and taxi number, info necessary for the app.
  *
  * @author Kimberly Strauch
- * @date 4/13/2014
+ * @date 3/05/2015
  */
 public class prefActivity extends Activity {
 
     private static final String TAG = "CS69";
     public static final String CUP_PREFS = "MyPrefs";
 
-    /* camera constants and variables
-    public static final int REQUEST_CODE_TAKE_FROM_CAMERA = 0;
-    public static final int REQUEST_CODE_TAKE_FROM_GALLERY = 1;
-
-    public static final int REQUEST_CODE_CROP_PHOTO = 2;
-
-    private static final String IMAGE_UNSPECIFIED = "image/*";
-    private static final String URI_INSTANCE_STATE_KEY = "saved_uri";
-    private static final String TMP_PROFILE_IMG_KEY = "saved_uri";
-
-    private Uri mImageCaptureUri;
-    private ImageView mImageView;
-
-    // temporary buffer for storing the image
-    private byte[] mProfileByteArray;
-    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,23 +47,6 @@ public class prefActivity extends Activity {
         // load the user's previously saved profile (or default profile)
         loadProfile();
 
-        /*
-        if (savedInstanceState != null) {
-            // handle screen rotation in here
-
-            // restore image uri, the key should be the same as
-            // the one used to put into the Bundle in onSaveInstanceState()
-            mImageCaptureUri = savedInstanceState
-                    .getParcelable(URI_INSTANCE_STATE_KEY);
-
-            // Load profile photo from internal storage, using key used to store
-            // it in onSaveInstanceState
-            mProfileByteArray = savedInstanceState
-                    .getByteArray(TMP_PROFILE_IMG_KEY);
-            loadPhoto();
-            // load the byte array to the image view
-        }
-        */
     }
 
     @Override
@@ -127,13 +94,7 @@ public class prefActivity extends Activity {
             // to see the hints ;)
             ((EditText) findViewById(R.id.editWeight)).setText(mValue);
         }
-        // Load the user height
-        /*mKey = getString(R.string.preference_key_height);
-        mValue = mPrefs.getString(mKey, " ");
-        if (mValue != " ") {
-            ((EditText) findViewById(R.id.editHeight)).setText(mValue);
-        }
-        */
+
         // Load the user age
         mKey = getString(R.string.preference_key_age);
         mValue = mPrefs.getString(mKey, "");
@@ -175,7 +136,7 @@ public class prefActivity extends Activity {
         SharedPreferences mPrefs = getSharedPreferences(mKey, MODE_PRIVATE);
 
         SharedPreferences.Editor mEditor = mPrefs.edit();
-        mEditor.clear();
+        //mEditor.clear();
 
 
         // Save name information
@@ -184,12 +145,6 @@ public class prefActivity extends Activity {
                 .getText().toString();
         mEditor.putString(mKey, mValue);
 
-        /* Save height information
-        mKey = getString(R.string.preference_key_height);
-        mValue = (String) ((EditText) findViewById(R.id.editHeight)).getText()
-                .toString();
-        mEditor.putString(mKey, mValue);
-        */
 
         // Save weight information
         mKey = getString(R.string.preference_key_weight);
