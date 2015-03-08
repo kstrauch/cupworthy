@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="You need to drink 3 glasses of water to rehydrate"
+            android:text="You need to drink 3 glasses of water to stay hydrated."
             android:id="@+id/howManyGlassesNeeded"
             android:layout_gravity="center" />
         </LinearLayout>
