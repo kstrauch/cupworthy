@@ -116,6 +116,7 @@ public class cupActivity extends Activity implements View.OnClickListener {
 
 
                 Spinner spinner = (Spinner)v.findViewById(R.id.alcoholSpinner);
+
                 String alc_type = spinner.getSelectedItem().toString();
 
                 if(alc_type.equals("Hard Alcohol")) {

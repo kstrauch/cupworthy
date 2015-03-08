@@ -129,7 +129,7 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
 
         //if (blacklist.isEmpty()){}
         displayBlacklist.clear();
-        Enumeration<String> enumKey = blacklist.keys();
+        Enumeration<String> enumKey = (Enumeration) blacklist.values();
         while (enumKey.hasMoreElements()) {
             String name = enumKey.nextElement();
             //Toast.makeText(context, name, Toast.LENGTH_LONG).show();
@@ -255,6 +255,12 @@ public class blacklistFragment extends Fragment implements View.OnClickListener{
                             displayBlacklist.add(name);
                             Collections.sort(displayBlacklist);
                             adapter.notifyDataSetChanged();
+                        }
+                        else if(phone.equals("911")){
+                            Toast.makeText(context, "Cannot add 911 to your blacklist!", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(blacklist.containsValue(name)){
+                            Toast.makeText(context, name + " is already in your blacklist!", Toast.LENGTH_SHORT).show();
                         }
 
                     }
