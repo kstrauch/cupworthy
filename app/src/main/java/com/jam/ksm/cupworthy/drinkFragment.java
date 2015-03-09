@@ -225,12 +225,13 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         SharedPreferences.Editor mEditor = mPrefs.edit();
         String mKey;
 
+        mKey = context.getString(R.string.preference_key_bac);
+        String bac = mPrefs.getString(mKey, "");
+
         // update start time for first app usage or if more than a day has passed.
         mKey = context.getString(R.string.preference_key_start_time);
         String start_time = mPrefs.getString(mKey, "");
 
-        mKey = context.getString(R.string.preference_key_bac);
-        String bac = mPrefs.getString(mKey, "");
         // if bac shored in sharedprefs is less than .01, or this is the first time using the app, or the drinking start time was more than a day ago,
         // reset the start time to start recalculating BAC from the current time. this prevents skew effects.
         // if a user has 1 drink, and then 3 hours later has 5 drink, it's not treated as 6 drinks over 3 hours, but 5 drinks in one hour...
@@ -285,8 +286,9 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         mKey = getString(R.string.preference_key_start_time);
         String start_time = mPrefs.getString(mKey, "");
 
-        // first time using app, set start_time to current sys time and set consumption to 0
-        if (start_time == "" || amount ==""){
+        // first time using app or last-saved start time is more than a day ago.
+        // set start_time to current sys time and set consumption to 0
+        if ((start_time == "" || (System.currentTimeMillis() - Long.parseLong(start_time) > Globals.MILLIS_PER_DAY)) || amount ==""){
             start_time = "" + System.currentTimeMillis();
             mEditor.putString(mKey, start_time);
             amount = "0.0";
@@ -324,8 +326,12 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
 
         // based on Widmark's BAC Formula
         double bac = (consumption * ALC_CONST) / (weight * gender_prop) - TIME_CONST * time_elapsed;
-        if (bac < 0) {
+        // if BAC < 0.01, we're going to set BAC to 0, and reset consumption to 0.
+        // this will prevent skew effects from scenarios, such as drinking 1 drink and then drinking 5 drinks 3 hours later...
+        if (bac < 0.01) {
             bac = 0.0;
+            mKey = getString(R.string.preference_key_consumption);
+            mEditor.putString(mKey,"0.0");
         }
         Log.d("CS69", "Consumption is " + consumption);
         Log.d("CS69", "weight is " + weight);
