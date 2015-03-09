@@ -60,8 +60,8 @@ public class prefActivity extends Activity {
     public void onCancelClicked(View v) {
         Log.d(TAG, "Cancel button clicked");
         // discard changes and finish the activity
-        Toast.makeText(getApplicationContext(), "Exiting profile!",
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Exiting profile!",
+//                Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -167,8 +167,8 @@ public class prefActivity extends Activity {
         // commit all the changes in the shared preferences
         mEditor.commit();
 
-        Toast.makeText(getApplicationContext(), "Saving user data!",
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Saving user data!",
+//                Toast.LENGTH_SHORT).show();
     }
 
 }
