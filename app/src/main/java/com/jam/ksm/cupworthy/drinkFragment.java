@@ -228,7 +228,13 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         // update start time for first app usage or if more than a day has passed.
         mKey = context.getString(R.string.preference_key_start_time);
         String start_time = mPrefs.getString(mKey, "");
-        if (start_time == "" || (System.currentTimeMillis() - Long.parseLong(start_time) > Globals.MILLIS_PER_DAY)) {
+
+        mKey = context.getString(R.string.preference_key_bac);
+        String bac = mPrefs.getString(mKey, "");
+        // if bac shored in sharedprefs is less than .01, or this is the first time using the app, or the drinking start time was more than a day ago,
+        // reset the start time to start recalculating BAC from the current time. this prevents skew effects.
+        // if a user has 1 drink, and then 3 hours later has 5 drink, it's not treated as 6 drinks over 3 hours, but 5 drinks in one hour...
+        if( (bac != "" && Double.parseDouble(bac) <= 0.01) || (start_time == "" || (System.currentTimeMillis() - Long.parseLong(start_time) > Globals.MILLIS_PER_DAY))) {
             mEditor.putString(mKey, "" + System.currentTimeMillis());
             mKey = context.getString(R.string.preference_key_consumption);
             mEditor.putString(mKey, "0.0");

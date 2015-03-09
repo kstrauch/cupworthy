@@ -91,7 +91,7 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
 
         //set up the layout
         TextView drinks;
-        if (Integer.valueOf(setNumber) == 0){
+        if (Integer.parseInt(setNumber) == 0){
             drinks = (TextView) view.findViewById(R.id.hydrationText);
             drinks.setText("You are properly hydrated!");
         }
