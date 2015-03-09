@@ -54,9 +54,14 @@ public class Globals {
     public static final String effect_2 = "Impaired judgment, lowered alertness and inhibitions";
     public static final String effect_3 = "Judgment and reasoning are impaired";
     public static final String effect_4 = "Slurred speech, poor coordination, not safe to drive.";
-    public static final String effect_5 = "Highly intoxicated. You're cut off!";
+    public static final String effect_5 = "Major loss of balance, judgment severely impaired.";
+    public static final String effect_6 = "You're 'sloppy drunk.' You're cut off!";
+    public static final String effect_7 = "Call a friend for help. You are highly, highly intoxicated.";
+    public static final String effect_8 = "You should seek medical attention immediately.";
 
-    public final static String[] EFFECTS_ARR = {effect_1,effect_2, effect_3, effect_4, effect_5 };
+    public final static String[] EFFECTS_ARR = {effect_1,effect_2, effect_3, effect_4, effect_5 ,effect_6, effect_7, effect_8};
 
     public static final double INTOX = 0.08;
+
+    public static final double[] VOLUME_ARR = {0.0, 1.0, 2.2, 3.4, 4.6, 5.8, 7.3, 8.6, 9.8, 11.1, 12.3,  13.4, 14.7, 15.5, 15.5, 15.5};
 }

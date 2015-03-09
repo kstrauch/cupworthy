@@ -369,16 +369,25 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         if (bac == 0.0){
            text = "";
         }
-        else if (bac <= 0.02) {
+        else if (bac <= 0.03) {
             text = Globals.EFFECTS_ARR[0];
-        } else if (bac <= 0.05) {
+        } else if (bac <= 0.06) {
             text = Globals.EFFECTS_ARR[1];
-        } else if (bac <= 0.08) {
+        } else if (bac < 0.08) {
             text = Globals.EFFECTS_ARR[2];
-        } else if (bac <= 0.10) {
+        } else if (bac <= 0.125) {
             text = Globals.EFFECTS_ARR[3];
-        } else {
+        } else if (bac <= 0.15){
             text = Globals.EFFECTS_ARR[4];
+        }
+        else if(bac <= 0.19){
+            text = Globals.EFFECTS_ARR[5];
+        }
+        else if(bac < 0.25){
+            text = Globals.EFFECTS_ARR[6];
+        }
+        else{
+            text = Globals.EFFECTS_ARR[7];
         }
         return text;
     }
@@ -440,7 +449,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
              DecimalFormat df = new DecimalFormat("0.00");
              // df.format(0.912385);
              double bac = calculateBAC();
-             Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
+             //Toast.makeText(getActivity(), "bac is" + bac, Toast.LENGTH_SHORT).show();
 
              setText("Your BAC is: " + df.format(bac), R.id.bacText);
              setText(getBACInfo(bac), R.id.bacDetails);

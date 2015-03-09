@@ -55,7 +55,7 @@
         android:src="@drawable/champagne"
         android:layout_gravity="left|center_vertical"
         android:background="?android:attr/selectableItemBackground"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp" />
 
     <ImageButton

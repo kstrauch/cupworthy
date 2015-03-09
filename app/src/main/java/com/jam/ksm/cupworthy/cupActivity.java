@@ -140,7 +140,7 @@ public class cupActivity extends Activity implements View.OnClickListener {
      * in next iteration, come up with a more comprehensive method for volume estimation
      */
     public double estimateVolume(){
-       return 2.0/3 * vert_progress;
-
+       //return 2.0/3 * vert_progress;
+        return Globals.VOLUME_ARR[vert_progress];
     }
 }

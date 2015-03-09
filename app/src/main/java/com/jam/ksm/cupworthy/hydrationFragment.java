@@ -126,12 +126,12 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
 
     String getNumberOfDrinks(){
         //use sharedPrefs to get the number of drinks you need to drink
-        mKey = "drink_number";
+        mKey = context.getString(R.string.preference_key_drink_number);
 
         String temp = mPrefs.getString(mKey, "");
         //if it isn't 0 or empty, set that as the number of drinks, otherwise set it to 0
         if ( temp != "0" && temp != "") {
-            return temp;
+            return "" + ((int) Double.parseDouble(temp));
         }
         else {
             return "0";
@@ -162,7 +162,7 @@ public class hydrationFragment extends Fragment implements View.OnClickListener 
         SharedPreferences.Editor mEditor = mPrefs.edit();
         String mKey;
 
-        mKey = "drink_number";
+        mKey = context.getString(R.string.preference_key_drink_number);
         int drink_num;
         if (mPrefs.getString(mKey, "") != "") {
             drink_num = Integer.parseInt(mPrefs.getString(mKey, ""));
