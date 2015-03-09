@@ -298,7 +298,7 @@ public class drinkFragment extends Fragment implements View.OnClickListener {
         }
 
 
-        double time_elapsed = (double) (System.currentTimeMillis() - Long.parseLong(start_time)) / Globals.MILLIS_PER_DAY;
+        double time_elapsed = (double) (System.currentTimeMillis() - Long.parseLong(start_time)) / Globals.MILLIS_PER_HOUR;
 
       //  mKey = getString(R.string.preference_key_consumption);
         double consumption = Double.parseDouble(amount);
